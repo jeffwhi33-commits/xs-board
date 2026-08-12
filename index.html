@@ -247,6 +247,18 @@
       font-weight: 800; font-size: 0.72rem; letter-spacing: 0.04em;
       text-transform: uppercase;
     }
+
+    .ticker-link {
+      color: #86efac; font-weight: 700; text-decoration: underline;
+      text-decoration-color: rgba(134,239,172,0.35);
+    }
+    .ticker-link:hover { color: #bbf7d0; text-decoration-color: rgba(187,247,208,0.7); }
+    .best-with-links { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 0.25rem; }
+    .mini-broker {
+      display: inline-flex; gap: 0.35rem; font-size: 0.68rem; font-weight: 700;
+    }
+    .mini-broker a { color: var(--dim); }
+    .mini-broker a:hover { color: var(--accent); }
     .best {
       display: inline-flex; align-items: center; gap: 0.35rem;
       padding: 0.2rem 0.5rem; border-radius: 8px;
@@ -552,7 +564,7 @@
       <div>
         <div class="footer-brand">X$ Board</div>
         <p class="disclaimer">
-          <strong>Not investment advice.</strong> Performance is simulated from public posts and market data (e.g. Yahoo Finance).
+          <strong>Not investment advice.</strong> Ticker links open third-party brokers/charts (Yahoo/Robinhood); not affiliated. Performance is simulated from public posts and market data (e.g. Yahoo Finance).
           Past results ≠ future results. Hot Tips ranks accounts by longs-only buy track record — the Pro board includes shorts. Entertainment / research tooling only.
         </p>
       </div>
@@ -582,6 +594,40 @@
       const pctRate = (r) => Math.round((r || 0) * 100) + "%";
       const streakClass = (s) => (String(s || "").startsWith("L") ? "l" : "w");
 
+      function brokerLinks(sym) {
+        const s = String(sym || "").trim().toUpperCase();
+        if (!s) return null;
+        return {
+          sym: s,
+          robinhood: "https://robinhood.com/stocks/" + s,
+          webull: "https://www.webull.com/quote/" + s,
+          yahoo: "https://finance.yahoo.com/quote/" + s,
+          tradingview: "https://www.tradingview.com/symbols/" + s + "/",
+        };
+      }
+
+      function bestCallFreeHtml(row) {
+        const sym = row.best_call_ticker;
+        const label = row.best_call_label || "—";
+        if (!sym) return '<span class="best">' + label + "</span>";
+        const b = brokerLinks(sym);
+        const esc = sym.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        const linked = label.replace(
+          new RegExp("\\b" + esc + "\\b"),
+          '<a class="ticker-link" href="' + b.yahoo + '" target="_blank" rel="noopener noreferrer" title="Yahoo Finance">' + sym + "</a>"
+        );
+        return (
+          '<span class="best-with-links">' +
+            '<span class="best">' + linked + "</span>" +
+            '<span class="mini-broker">' +
+              '<a href="' + b.robinhood + '" target="_blank" rel="noopener noreferrer" title="Robinhood">RH</a>' +
+              '<a href="' + b.yahoo + '" target="_blank" rel="noopener noreferrer" title="Yahoo Finance">Yahoo</a>' +
+            "</span>" +
+          "</span>"
+        );
+      }
+
+
       const handleHtml = (display, isBench) => (
         "<span class=\"handle " + (isBench ? "real" : "masked") + "\">" +
         (display || "????????") +
@@ -610,7 +656,7 @@
                 "<td class=\"rank\">" + r.rank + "</td>" +
                 "<td>" + handleHtml(disp, !!r.is_benchmark) + "</td>" +
                 "<td class=\"num " + pnlCls + "\">" + money(r.pnl_on_10k) + "</td>" +
-                "<td><span class=\"best\">" + (r.best_call_label || "—") + "</span></td>" +
+                "<td>" + bestCallFreeHtml(r) + "</td>" +
                 "<td class=\"num " + spyCls + "\">" + spyHtml + "</td>" +
                 "<td class=\"num mono\">" + pctRate(r.hit_rate) + "</td>" +
                 "<td class=\"num mono\">" + (n ?? "—") + "</td>" +
@@ -654,7 +700,7 @@
               "<td class=\"rank\">" + r.rank + "</td>" +
               "<td>" + handleHtml(disp, !!r.is_benchmark) + "</td>" +
               "<td class=\"num " + pnlCls + "\">" + money(r.pnl_on_10k) + "</td>" +
-              "<td><span class=\"best\">" + (r.best_call_label || "—") + "</span></td>" +
+              "<td>" + bestCallFreeHtml(r) + "</td>" +
               "<td class=\"num " + spyCls + "\">" + money(r.vs_spy_on_10k) + "</td>" +
               "<td class=\"num mono\">" + pctRate(r.hit_rate) + "</td>" +
               "<td class=\"num mono\">" + (r.n_calls ?? "—") + "</td>" +
@@ -718,6 +764,7 @@
       }
 
       document.getElementById("year").textContent = new Date().getFullYear();
+      window.brokerLinks = brokerLinks;
       wireTabs();
       load();
     })();

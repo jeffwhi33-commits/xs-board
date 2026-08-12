@@ -9,18 +9,20 @@ Consumer landing page for **X$ Board**.
 | Path | Purpose |
 |------|---------|
 | `index.html` | Free landing page (masked retail handles) |
-| `paid.html` | Paid unlock page (real @handles) after Stripe success |
+| `paid.html` | Stub only — "Checkout required" + Stripe link (no paid data) |
+| `x/<unlock_token>/index.html` | Secret paid unlock page (real @handles). Path from `stripe_config.json` |
+| `x/<unlock_token>/paid_board.json` | Paid board JSON (not under public `/data/`) |
 | `data/hot_tips.json` | Hot Tips: longs-only who-to-follow board |
 | `data/free_teaser.json` | Pro board Top 15 (long + short, masked) |
-| `data/paid_board.json` | Paid board with real handles (Hot Tips + Pro) |
-| `stripe_config.json` | Stripe test Payment Link metadata (no secret keys) |
-| `sync_data.py` | Regenerates / copies JSON into `data/` |
+| `stripe_config.json` | Stripe Payment Link metadata + `unlock_token` / `paid_path` (no secret API keys) |
+| `robots.txt` | Disallows `/x/` and old `paid.html` |
+| `sync_data.py` | Regenerates / copies free JSON into `data/` |
 
 ## Stripe checkout (test mode)
 
-Unlock CTAs on `index.html` point at the Stripe **Payment Link** in `stripe_config.json` (`payment_url`).
+Unlock CTAs on `index.html` point **only** at the Stripe **Payment Link** in `stripe_config.json` (`payment_url`). They never link directly to the secret paid URL.
 
-Success URL → `paid.html?unlocked=1`
+Success redirect → obscure path in `success_url` / `paid_path` (set as Payment Link `after_completion.redirect.url`).
 
 ### Test cards
 
@@ -31,16 +33,14 @@ Use Stripe test card:
 
 Other test cards: https://stripe.com/docs/testing
 
-### MVP access gate (temporary)
+### MVP access gate (obfuscation only)
 
-`paid.html` unlocks when:
+1. Paid content lives under an obscure `x/<token>/` path (not guessable from marketing URLs).
+2. Visiting that path sets `localStorage.xs_board_unlocked=1` for return visits in the same browser.
+3. Old `paid.html` is a paywall stub with **no** handles and **no** paid JSON.
+4. `/data/paid_board.json` is removed from the public site root.
 
-1. URL has `?unlocked=1` (Stripe success redirect), **or**
-2. `localStorage.xs_board_unlocked=1` from a prior unlocked visit
-
-On `?unlocked=1`, the page sets that localStorage flag so return visits work without paying again.
-
-**This is not a real entitlement check** — anyone with the success URL can unlock. Replace with Stripe Customer Portal / webhook-backed auth before charging real money.
+**This is not real security.** The GitHub repo is (or was) public, so a secret path committed to git is still discoverable by browsing the repo. Making the repo **private** raises the bar. **True entitlement checks need a backend** (Stripe webhook / Customer Portal / signed cookies). This MVP only stops casual guessing from the free marketing URL.
 
 ## Open locally
 
@@ -48,7 +48,7 @@ On `?unlocked=1`, the page sets that localStorage flag so return visits work wit
 cd site
 python3 -m http.server 8080
 # open http://localhost:8080
-# paid preview: http://localhost:8080/paid.html?unlocked=1
+# paid preview: use success_url / paid_path from stripe_config.json
 ```
 
 ## Refresh data
@@ -58,18 +58,18 @@ python site/sync_data.py
 python site/sync_data.py --no-regen   # copy + embed only
 ```
 
-Also copy / rebuild `data/paid_board.json` when regenerating retail / hot tips boards (see deploy scripts / paid page embed).
+After regenerating retail / hot tips boards, rebuild and copy paid JSON into `x/<token>/paid_board.json` (and re-embed in the secret HTML if you rely on the inline blob).
 
 ## Information architecture
 
 1. **Hot Tips (default)** — who to follow by longs-only $10k P&L.
 2. **Pro board** — full Top 15 long/short (`free_teaser.json` on free; real handles on paid).
 3. Free masking: benchmarks show `@handles`; others `xxxxxxxx` + last 2.
-4. CTA: **Unlock — $12/mo** → Stripe Payment Link → `paid.html?unlocked=1`.
+4. CTA: **Unlock — $12/mo** → Stripe Payment Link → secret paid path.
 
 ## Deploy
 
-Static host, no build step. GitHub Pages publishes site files at repo root (`jeffwhi33-commits/xs-board`).
+Static host, no build step. GitHub Pages publishes site files at repo root (`jeffwhi33-commits/xs-board`). Prefer a **private** repo so the obscure path is not browsable on github.com.
 
 ## Disclaimers
 

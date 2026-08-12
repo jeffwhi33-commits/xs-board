@@ -3,6 +3,8 @@
   "price_id": "price_1U3ipQA5KVS9YeBk4TzyiV6m",
   "payment_link_id": "plink_1U3ipQA5KVS9YeBktrhS6nmE",
   "payment_url": "https://buy.stripe.com/test_6oU4gy1wlcFy0aRbin7AI00",
-  "success_url": "https://jeffwhi33-commits.github.io/xs-board/paid.html?unlocked=1",
-  "mode": "test"
+  "success_url": "https://jeffwhi33-commits.github.io/xs-board/x/1mpH-f3WR_Ml1gp6AD5cZgaerXiiqPAyXTj93_Bfnpk/",
+  "mode": "test",
+  "unlock_token": "1mpH-f3WR_Ml1gp6AD5cZgaerXiiqPAyXTj93_Bfnpk",
+  "paid_path": "x/1mpH-f3WR_Ml1gp6AD5cZgaerXiiqPAyXTj93_Bfnpk/"
 }

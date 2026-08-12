@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /paid.html
+Disallow: /x/
+Disallow: /x/1mpH-f3WR_Ml1gp6AD5cZgaerXiiqPAyXTj93_Bfnpk/

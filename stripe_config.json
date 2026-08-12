@@ -1,0 +1,8 @@
+{
+  "product_id": "prod_V3qWEpCV5T1h9z",
+  "price_id": "price_1U3ipQA5KVS9YeBk4TzyiV6m",
+  "payment_link_id": "plink_1U3ipQA5KVS9YeBktrhS6nmE",
+  "payment_url": "https://buy.stripe.com/test_6oU4gy1wlcFy0aRbin7AI00",
+  "success_url": "https://jeffwhi33-commits.github.io/xs-board/paid.html?unlocked=1",
+  "mode": "test"
+}

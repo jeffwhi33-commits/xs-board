@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>X$ Board — Hot Tips from X</title>
+  <meta name="description" content="Who is beating @pelositracker? Famous benchmarks stay visible — the mystery FinTwit follows crushing them unlock for $12/mo." />
+  <meta name="theme-color" content="#0a0b10" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0b10;
+      --bg-elev: #11131a;
+      --bg-card: #151823;
+      --border: rgba(255,255,255,0.08);
+      --border-strong: rgba(255,255,255,0.14);
+      --text: #f3f4f6;
+      --muted: #9ca3af;
+      --dim: #6b7280;
+      --green: #22c55e;
+      --green-soft: rgba(34,197,94,0.14);
+      --red: #f87171;
+      --red-soft: rgba(248,113,113,0.12);
+      --gold: #fbbf24;
+      --gold-soft: rgba(251,191,36,0.12);
+      --accent: #34d399;
+      --accent-2: #a78bfa;
+      --glow: rgba(34,197,94,0.35);
+      --radius: 16px;
+      --shadow: 0 20px 60px rgba(0,0,0,0.45);
+      --font: "Inter", system-ui, -apple-system, sans-serif;
+      --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    .bg-glow {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(900px 500px at 15% -10%, rgba(52,211,153,0.16), transparent 55%),
+        radial-gradient(700px 400px at 90% 10%, rgba(167,139,250,0.12), transparent 50%),
+        radial-gradient(600px 400px at 50% 100%, rgba(34,197,94,0.06), transparent 55%);
+    }
+    .wrap { width: min(1120px, calc(100% - 2rem)); margin: 0 auto; position: relative; z-index: 1; }
+
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      background: rgba(10,11,16,0.85);
+      border-bottom: 1px solid var(--border);
+      overflow: visible;
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.95rem 0; gap: 1rem;
+      overflow: visible;
+    }
+    .nav-links .btn-primary {
+      flex-shrink: 0;
+      color: #04140c !important;
+      background: linear-gradient(180deg, #4ade80, #16a34a);
+      box-shadow: 0 6px 22px var(--glow);
+      border: 1px solid rgba(255,255,255,0.12);
+      line-height: 1.2;
+      min-height: 2.35rem;
+      padding: 0.55rem 1.05rem;
+    }
+    .nav-links .btn-primary:hover {
+      background: linear-gradient(180deg, #86efac, #22c55e);
+      color: #04140c !important;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 0.55rem;
+      font-weight: 800; letter-spacing: -0.03em; font-size: 1.15rem;
+    }
+    .logo-mark {
+      width: 30px; height: 30px; border-radius: 9px;
+      background: linear-gradient(135deg, #22c55e, #a78bfa);
+      display: grid; place-items: center;
+      font-weight: 800; font-size: 0.78rem; color: #0a0b10;
+      box-shadow: 0 0 24px var(--glow);
+    }
+    .nav-links { display: flex; align-items: center; gap: 1.25rem; }
+    .nav-links a { color: var(--muted); font-size: 0.92rem; font-weight: 500; }
+    .nav-links a:hover { color: var(--text); }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem;
+      padding: 0.7rem 1.15rem; border-radius: 999px; font-weight: 700;
+      transition: transform .15s ease, background .15s ease, box-shadow .15s ease;
+      white-space: nowrap;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary {
+      background: linear-gradient(180deg, #34d399, #22c55e);
+      color: #04140c;
+      box-shadow: 0 8px 28px var(--glow);
+    }
+    .btn-primary:hover { background: linear-gradient(180deg, #4ade80, #16a34a); }
+    .btn-ghost {
+      border: 1px solid var(--border-strong);
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.28); background: rgba(255,255,255,0.06); }
+    .btn-lg { padding: 0.95rem 1.45rem; font-size: 1.02rem; }
+    .btn-sm { padding: 0.55rem 0.95rem; font-size: 0.88rem; }
+
+    .hero { padding: 4.25rem 0 2rem; text-align: center; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      padding: 0.35rem 0.75rem; border-radius: 999px;
+      border: 1px solid var(--border-strong);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted); font-size: 0.82rem; font-weight: 600;
+      margin-bottom: 1.25rem;
+    }
+    .dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--green); box-shadow: 0 0 10px var(--green);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.45} }
+    .hero h1 {
+      font-size: clamp(2.15rem, 5.4vw, 3.5rem);
+      line-height: 1.08; letter-spacing: -0.04em; font-weight: 800;
+      max-width: 18ch; margin: 0 auto 1rem;
+    }
+    .hero h1 .grad {
+      background: linear-gradient(90deg, #34d399, #fbbf24 55%, #a78bfa);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .hero-sub {
+      color: var(--muted); font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+      max-width: 36rem; margin: 0 auto 1.75rem;
+    }
+    .hero-ctas {
+      display: flex; flex-wrap: wrap; gap: 0.75rem;
+      justify-content: center; margin-bottom: 1.25rem;
+    }
+    .social-proof { color: var(--dim); font-size: 0.9rem; font-weight: 500; }
+    .social-proof strong { color: var(--muted); font-weight: 600; }
+
+    section { padding: 2.75rem 0; }
+    .section-head {
+      display: flex; flex-wrap: wrap; align-items: end;
+      justify-content: space-between; gap: 1rem; margin-bottom: 1.1rem;
+    }
+    .section-head h2 {
+      font-size: clamp(1.35rem, 3vw, 1.8rem);
+      letter-spacing: -0.03em; font-weight: 800;
+    }
+    .section-head p { color: var(--muted); font-size: 0.95rem; max-width: 32rem; }
+    .updated {
+      font-family: var(--mono); font-size: 0.78rem; color: var(--dim);
+      padding: 0.35rem 0.65rem; border-radius: 999px;
+      border: 1px solid var(--border); background: var(--bg-elev);
+    }
+
+    /* View tabs */
+    .tabs {
+      display: inline-flex; flex-wrap: wrap; gap: 0.35rem;
+      padding: 0.3rem; border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      margin-bottom: 1.15rem;
+    }
+    .tab {
+      border: none; background: transparent; color: var(--muted);
+      font: inherit; font-weight: 700; font-size: 0.9rem;
+      padding: 0.55rem 1rem; border-radius: 999px; cursor: pointer;
+      transition: background .15s ease, color .15s ease;
+    }
+    .tab:hover { color: var(--text); }
+    .tab.active {
+      background: linear-gradient(180deg, rgba(52,211,153,0.22), rgba(34,197,94,0.14));
+      color: #ecfdf5;
+      box-shadow: inset 0 0 0 1px rgba(52,211,153,0.35);
+    }
+    .view { display: none; }
+    .view.active { display: block; }
+
+    .board-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent 40%), var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: calc(var(--radius) + 4px);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .board-toolbar {
+      display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.15rem; border-bottom: 1px solid var(--border);
+    }
+    .chip-row { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .chip {
+      font-size: 0.75rem; font-weight: 600; color: var(--muted);
+      padding: 0.28rem 0.6rem; border-radius: 999px;
+      border: 1px solid var(--border); background: rgba(255,255,255,0.02);
+    }
+    .chip.gold { color: var(--gold); border-color: rgba(251,191,36,0.35); background: var(--gold-soft); }
+    .chip.green { color: #86efac; border-color: rgba(34,197,94,0.35); background: var(--green-soft); }
+
+    .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table { width: 100%; border-collapse: collapse; min-width: 780px; font-size: 0.92rem; }
+    thead th {
+      text-align: left; font-size: 0.72rem; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--dim); font-weight: 600;
+      padding: 0.85rem 1rem; border-bottom: 1px solid var(--border);
+      background: rgba(0,0,0,0.25); white-space: nowrap;
+    }
+    thead th.num, td.num { text-align: right; }
+    tbody tr { border-bottom: 1px solid var(--border); transition: background .12s ease; }
+    tbody tr:hover { background: rgba(255,255,255,0.025); }
+    tbody tr.benchmark { background: rgba(251,191,36,0.04); }
+    tbody tr.benchmark:hover { background: rgba(251,191,36,0.07); }
+    td { padding: 0.95rem 1rem; vertical-align: middle; white-space: nowrap; }
+    .rank { font-family: var(--mono); font-weight: 600; color: var(--dim); font-size: 0.85rem; }
+    .handle {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-weight: 700; letter-spacing: -0.02em;
+    }
+    .handle.masked { font-family: var(--mono); font-weight: 600; color: var(--muted); letter-spacing: 0.02em; }
+    .handle.real { color: var(--text); }
+    .star { color: var(--gold); font-size: 0.85rem; filter: drop-shadow(0 0 6px rgba(251,191,36,0.45)); }
+    .pos { color: var(--green); font-weight: 700; font-variant-numeric: tabular-nums; }
+    .neg { color: var(--red); font-weight: 700; font-variant-numeric: tabular-nums; }
+    .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+    .ticker {
+      font-family: var(--mono); font-weight: 700; font-size: 1.02rem;
+      letter-spacing: -0.02em;
+    }
+    .buy-pill {
+      display: inline-flex; align-items: center;
+      padding: 0.18rem 0.55rem; border-radius: 999px;
+      background: var(--green-soft); color: #86efac;
+      font-weight: 800; font-size: 0.72rem; letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .best {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.2rem 0.5rem; border-radius: 8px;
+      background: var(--green-soft); color: #86efac; font-weight: 600; font-size: 0.85rem;
+    }
+    .streak {
+      display: inline-flex; min-width: 2.4rem; justify-content: center;
+      padding: 0.18rem 0.45rem; border-radius: 999px; font-weight: 700; font-size: 0.8rem;
+      font-family: var(--mono);
+    }
+    .streak.w { background: var(--green-soft); color: #86efac; }
+    .streak.l { background: var(--red-soft); color: #fca5a5; }
+    .tip-blurb {
+      max-width: 220px; white-space: normal; color: var(--dim);
+      font-size: 0.78rem; line-height: 1.35;
+    }
+    .unlock-banner {
+      position: sticky; top: 58px; z-index: 40;
+      display: flex; flex-wrap: wrap; gap: 0.85rem; align-items: center;
+      justify-content: space-between;
+      padding: 0.95rem 1.2rem;
+      border-bottom: 1px solid rgba(34,197,94,0.28);
+      background: linear-gradient(90deg, rgba(34,197,94,0.16), rgba(251,191,36,0.1) 55%, rgba(167,139,250,0.12));
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.28);
+    }
+    .unlock-banner p {
+      color: var(--text); font-size: 0.95rem; font-weight: 600;
+      max-width: 40rem; letter-spacing: -0.01em; line-height: 1.4;
+    }
+    .unlock-banner p span { color: #fde68a; }
+    .unlock-banner .btn { flex-shrink: 0; }
+    .board-cta {
+      display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;
+      justify-content: space-between;
+      padding: 1.15rem 1.25rem;
+      border-top: 1px solid var(--border);
+      background: linear-gradient(90deg, rgba(34,197,94,0.08), rgba(167,139,250,0.08));
+    }
+    .board-cta p { color: var(--muted); font-size: 0.92rem; max-width: 36rem; }
+    .board-cta strong { color: var(--text); }
+
+    .subpanel { margin-top: 1.5rem; }
+    .subpanel h3 {
+      font-size: 1.1rem; letter-spacing: -0.02em; margin-bottom: 0.35rem;
+    }
+    .subpanel > p { color: var(--muted); font-size: 0.92rem; margin-bottom: 0.85rem; }
+
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .step {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.35rem 1.25rem;
+      position: relative; overflow: hidden;
+    }
+    .step::before {
+      content: ""; position: absolute; inset: 0 auto 0 0; width: 3px;
+      background: linear-gradient(180deg, var(--accent), var(--accent-2));
+    }
+    .step-num {
+      font-family: var(--mono); font-size: 0.78rem; font-weight: 600;
+      color: var(--accent); margin-bottom: 0.65rem;
+    }
+    .step h3 { font-size: 1.05rem; margin-bottom: 0.4rem; letter-spacing: -0.02em; }
+    .step p { color: var(--muted); font-size: 0.92rem; }
+
+    .callout {
+      display: grid; grid-template-columns: 1.2fr 1fr; gap: 1.25rem;
+      align-items: stretch;
+    }
+    .callout-main, .pricing {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: calc(var(--radius) + 2px); padding: 1.6rem 1.5rem;
+    }
+    .callout-main h2, .pricing h2 {
+      font-size: 1.35rem; letter-spacing: -0.03em; margin-bottom: 0.65rem;
+    }
+    .callout-main p, .pricing p { color: var(--muted); margin-bottom: 1rem; }
+    .bench-list { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 0.5rem; }
+    .bench-pill {
+      font-family: var(--mono); font-size: 0.8rem; font-weight: 600;
+      padding: 0.35rem 0.65rem; border-radius: 999px;
+      border: 1px solid rgba(251,191,36,0.35);
+      background: var(--gold-soft); color: #fde68a;
+    }
+    .pricing {
+      border-color: rgba(34,197,94,0.35);
+      background: linear-gradient(180deg, rgba(34,197,94,0.1), transparent 45%), var(--bg-card);
+      box-shadow: 0 0 0 1px rgba(34,197,94,0.08), var(--shadow);
+      display: flex; flex-direction: column;
+    }
+    .price-row { display: flex; align-items: baseline; gap: 0.35rem; margin: 0.25rem 0 1rem; }
+    .price { font-size: 2.6rem; font-weight: 800; letter-spacing: -0.04em; }
+    .price-unit { color: var(--muted); font-weight: 600; }
+    .price-note { color: var(--dim); font-size: 0.82rem; margin-top: -0.5rem; margin-bottom: 1rem; }
+    .perks { list-style: none; display: grid; gap: 0.55rem; margin-bottom: 1.35rem; flex: 1; }
+    .perks li {
+      display: flex; gap: 0.55rem; align-items: flex-start;
+      color: var(--muted); font-size: 0.92rem;
+    }
+    .perks li::before { content: "✓"; color: var(--green); font-weight: 800; margin-top: 0.05rem; }
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 0 2.75rem; margin-top: 1rem;
+    }
+    .footer-grid {
+      display: flex; flex-wrap: wrap; gap: 1.25rem;
+      justify-content: space-between; align-items: flex-start;
+    }
+    .footer-brand { font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0.35rem; }
+    .disclaimer { color: var(--dim); font-size: 0.8rem; max-width: 40rem; line-height: 1.55; }
+    .footer-meta { color: var(--dim); font-size: 0.8rem; text-align: right; }
+
+    @media (max-width: 860px) {
+      .steps, .callout { grid-template-columns: 1fr; }
+      .nav-links a.hide-sm { display: none; }
+      .hero { padding-top: 3.1rem; }
+      .footer-meta { text-align: left; }
+      table.hot { min-width: 640px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="logo" href="#top" aria-label="X$ Board home">
+        <span class="logo-mark">X$</span>
+        <span>X$ Board</span>
+      </a>
+      <nav class="nav-links">
+        <a class="hide-sm" href="#board">Hot Tips</a>
+        <a class="hide-sm" href="#how">How it works</a>
+        <a class="hide-sm" href="#pricing">Pricing</a>
+        <!-- CTA_PLACEHOLDER: swap href when Stripe is ready -->
+        <a class="btn btn-primary btn-sm" href="#pricing" data-cta="unlock">Unlock names — $12/mo</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero wrap">
+      <div class="eyebrow"><span class="dot" aria-hidden="true"></span> Live board · @pelositracker visible · Mystery follows masked</div>
+      <h1>Who is <span class="grad">beating</span> the Pelosi tracker?</h1>
+      <p class="hero-sub">Famous benchmarks like <strong style="color:var(--text);font-weight:700">@pelositracker</strong> stay unlocked so you can compare. The accounts printing harder than them? Masked — until you pay $12/mo to follow the real @handles.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary btn-lg" href="#pricing" data-cta="unlock">Unlock who's beating them — $12/mo</a>
+        <a class="btn btn-ghost btn-lg" href="#board">Peek the free board</a>
+      </div>
+      <p class="social-proof"><strong>FOMO built in</strong> · See the P&amp;L · Guess the names · Or just unlock</p>
+    </section>
+
+    <section id="board">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>Hot Tips board</h2>
+            <p>Who to follow, ranked by <strong style="color:var(--text)">longs-only $10k</strong>. ★ benchmarks show real @handles — everyone else is masked until you unlock.</p>
+          </div>
+          <span class="updated" id="updated-label">Loading…</span>
+        </div>
+
+        <div class="tabs" role="tablist" aria-label="Board views">
+          <button class="tab active" role="tab" aria-selected="true" data-view="hot" id="tab-hot">🔥 Hot Tips</button>
+          <button class="tab" role="tab" aria-selected="false" data-view="pro" id="tab-pro">Pro board · Long/Short</button>
+        </div>
+
+        <!-- HOT TIPS (default): follows-first, longs only -->
+        <div class="view active" id="view-hot" role="tabpanel" aria-labelledby="tab-hot">
+          <div class="board-card">
+            <div class="board-toolbar">
+              <div class="chip-row">
+                <span class="chip green">Who to follow · longs only</span>
+                <span class="chip gold">★ Benchmark = real @handle</span>
+                <span class="chip">Retail = xxxxxxxx + last 2</span>
+              </div>
+              <a class="btn btn-ghost btn-sm" href="#pricing" data-cta="unlock">Unlock real @handles</a>
+            </div>
+            <div class="unlock-banner" id="hot-unlock-banner" role="region" aria-label="Unlock hidden Hot Tips">
+              <p id="hot-unlock-copy"><span>3 of the top 5 names are hidden.</span> Unlock who is beating the Pelosi tracker — $12/mo.</p>
+              <!-- CTA_PLACEHOLDER -->
+              <a class="btn btn-primary btn-sm" href="mailto:hello@xsboard.com?subject=X%24%20Board%20Unlock%20%2412%2Fmo" data-cta="unlock">Unlock names — $12/mo</a>
+            </div>
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Handle</th>
+                    <th class="num">$ on $10k</th>
+                    <th>Best call</th>
+                    <th class="num">vs SPY</th>
+                    <th class="num">Hit rate</th>
+                    <th class="num"># calls</th>
+                    <th>Streak</th>
+                  </tr>
+                </thead>
+                <tbody id="follow-longs-body"></tbody>
+              </table>
+            </div>
+            <div class="board-cta">
+              <p><strong>Those masked rows are real printers.</strong> Unlock @handles, X links, and call receipts — then follow who's beating @pelositracker.</p>
+              <!-- CTA_PLACEHOLDER -->
+              <a class="btn btn-primary" href="mailto:hello@xsboard.com?subject=X%24%20Board%20Unlock%20%2412%2Fmo" data-cta="unlock">Unlock who is beating Pelosi — $12/mo</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRO BOARD -->
+        <div class="view" id="view-pro" role="tabpanel" aria-labelledby="tab-pro">
+          <div class="board-card">
+            <div class="board-toolbar">
+              <div class="chip-row">
+                <span class="chip">Full long + short $10k board</span>
+                <span class="chip gold">★ Benchmark = real @handle</span>
+                <span class="chip">Main tier · ≥8 calls</span>
+              </div>
+              <a class="btn btn-ghost btn-sm" href="#pricing" data-cta="unlock">Unlock names</a>
+            </div>
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Handle</th>
+                    <th class="num">$ on $10k</th>
+                    <th>Best call</th>
+                    <th class="num">vs SPY</th>
+                    <th class="num">Hit rate</th>
+                    <th class="num"># calls</th>
+                    <th>Streak</th>
+                  </tr>
+                </thead>
+                <tbody id="pro-body"></tbody>
+              </table>
+            </div>
+            <div class="board-cta">
+              <p><strong>Long + short scorecard</strong> — still masked on free. Unlock real @handles and the receipts behind every print.</p>
+              <a class="btn btn-primary" href="mailto:hello@xsboard.com?subject=X%24%20Board%20Unlock%20%2412%2Fmo" data-cta="unlock">Unlock names — $12/mo</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="how">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <h2>How Hot Tips works</h2>
+            <p>Public posts in → who to follow for buy ideas. No Wall Street deck energy.</p>
+          </div>
+        </div>
+        <div class="steps">
+          <article class="step">
+            <div class="step-num">01</div>
+            <h3>Pull the long calls</h3>
+            <p>We take ticker tips from public X posts and keep the longs — the “I like this stock” book for each account.</p>
+          </article>
+          <article class="step">
+            <div class="step-num">02</div>
+            <h3>Simulate $10k longs-only</h3>
+            <p>Equal-weight paper $10k behind each account's priced buy calls. Rank by dollar P&amp;L, best call, hit rate, streak.</p>
+          </article>
+          <article class="step">
+            <div class="step-num">03</div>
+            <h3>Unlock who to follow</h3>
+            <p>Free board masks retail names. Paid unlocks real @handles + receipts. Pro tab keeps the full long/short follows board.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing">
+      <div class="wrap callout">
+        <div class="callout-main">
+          <h2>Why ★ benchmarks stay free</h2>
+          <p>Everyone knows the famous trackers — <strong style="color:var(--text)">@pelositracker</strong>, Congress / Trump-market feeds, and friends. We keep those @handles visible so you can line them up against mystery FinTwit follows… and spot who's quietly beating them.</p>
+          <p>Retail tipsters stay masked as <span class="mono" style="color:var(--muted)">xxxxxxxx</span> + last 2 until you unlock. That's the FOMO.</p>
+          <div class="bench-list" id="bench-pills" aria-label="Visible benchmarks"></div>
+        </div>
+
+        <aside class="pricing">
+          <div class="chip gold" style="align-self:flex-start;margin-bottom:0.75rem;">Unlock · $12/mo</div>
+          <h2>See the real @handles</h2>
+          <div class="price-row">
+            <span class="price">$12</span>
+            <span class="price-unit">/mo</span>
+          </div>
+          <p class="price-note">Cancel anytime · Fresh board every day</p>
+          <ul class="perks">
+            <li>Real @handles you can follow on X</li>
+            <li>Direct X links to every scored call</li>
+            <li>Call receipts — ticker, side, date, P&amp;L</li>
+            <li>Daily updates on Hot Tips + Pro long/short</li>
+          </ul>
+          <!-- CTA_PLACEHOLDER -->
+          <a class="btn btn-primary btn-lg" href="mailto:hello@xsboard.com?subject=X%24%20Board%20Unlock%20%2412%2Fmo" data-cta="unlock">Unlock who's beating Pelosi — $12/mo</a>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-grid">
+      <div>
+        <div class="footer-brand">X$ Board</div>
+        <p class="disclaimer">
+          <strong>Not investment advice.</strong> Performance is simulated from public posts and market data (e.g. Yahoo Finance).
+          Past results ≠ future results. Hot Tips ranks accounts by longs-only buy track record — the Pro board includes shorts. Entertainment / research tooling only.
+        </p>
+      </div>
+      <div class="footer-meta">
+        <div>© <span id="year"></span> X$ Board</div>
+        <div style="margin-top:0.35rem">FOMO retail · not Wall Street research</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- EMBEDDED_BOARD_DATA: rewritten by sync_data.py for file:// fallback -->
+  <script type="application/json" id="hot-tips-data">{"tier":"dataset","product":"X$ Board","view":"hot_tips","filter":"longs_only","paywall":"Non-benchmark handles masked in free_display (xxxxxxxx + last 2 chars). Famous benchmark @handles shown. JSON also includes real handle for paid/internal use.","updated_at":"2026-08-12 2:49 PM CDT","asof":"2026-08-12","meta":{"updated_at":"2026-08-12 2:49 PM CDT","updated_at_iso":"2026-08-12T14:49:25.251865-05:00","asof":"2026-08-12","timezone":"America/Chicago","lookback_days":90,"notional_per_account":10000.0,"filter":"longs_only","min_ticker_longs":3,"hot_tickers_top":15,"follow_top":15,"follow_min_calls":5,"follow_min_main":8,"follow_min_fallback":5,"n_long_calls_priced":209,"n_hot_tickers":15,"n_follow_accounts":15,"product":"X$ Board — Hot Tips","disclaimer":"Not investment advice. Simulated from public posts + Yahoo Finance. Past ≠ future.","scoring":"Hot ticker score = (0.45*avg + 0.35*recent_half_avg + 0.20*best) * log1p(mentions); follow = equal-weight $10k P&L on priced long calls only.","masking_rule":"xxxxxxxx + last 2 chars of handle for non-benchmarks; real @handle for benchmarks.json accounts. JSON includes real handle + free_display."},"notes":{"hot_tickers":"Aggregate priced long calls per ticker (≥3 mentions). Avg / best / recent-half avg primary return + mention-weighted score. Primary normie 'buy tip' view.","who_to_follow_longs":"Accounts ranked by equal-weight $ P&L on $10k using long calls only. lowered bar to ≥5 priced long calls (only 13 accounts had ≥8)."},"hot_tickers":[{"ticker":"MSFT","side":"long","n_mentions":6,"n_unique_handles":5,"avg_primary_pnl_pct":11.81,"best_primary_pnl_pct":30.2,"recent_avg_primary_pnl_pct":12.5,"hit_rate":0.6667,"last_call":"2026-08-07","score":30.6095,"top_handle":"Jake__Wujastyk","top_handle_free_display":"xxxxxxxxyk","top_handle_is_benchmark":false,"best_call_date":"2026-07-07","best_call_label":"+30.2% MSFT long","rank":1},{"ticker":"SPCX","side":"long","n_mentions":6,"n_unique_handles":4,"avg_primary_pnl_pct":5.21,"best_primary_pnl_pct":30.74,"recent_avg_primary_pnl_pct":13.56,"hit_rate":0.5,"last_call":"2026-08-04","score":25.7594,"top_handle":"munster_gene","top_handle_free_display":"xxxxxxxxne","top_handle_is_benchmark":false,"best_call_date":"2026-08-04","best_call_label":"+30.7% SPCX long","rank":2},{"ticker":"GDX","side":"long","n_mentions":4,"n_unique_handles":1,"avg_primary_pnl_pct":7.81,"best_primary_pnl_pct":27.82,"recent_avg_primary_pnl_pct":19.22,"hit_rate":0.5,"last_call":"2026-08-04","score":25.4378,"top_handle":"TaviCosta","top_handle_free_display":"xxxxxxxxta","top_handle_is_benchmark":false,"best_call_date":"2026-07-17","best_call_label":"+27.8% GDX long","rank":3},{"ticker":"NVDA","side":"long","n_mentions":9,"n_unique_handles":7,"avg_primary_pnl_pct":3.75,"best_primary_pnl_pct":13.84,"recent_avg_primary_pnl_pct":3.99,"hit_rate":0.7778,"last_call":"2026-08-10","score":13.4751,"top_handle":"jimcramer","top_handle_free_display":"xxxxxxxxer","top_handle_is_benchmark":false,"best_call_date":"2026-07-06","best_call_label":"+13.8% NVDA long","rank":4},{"ticker":"PANW","side":"long","n_mentions":4,"n_unique_handles":4,"avg_primary_pnl_pct":5.42,"best_primary_pnl_pct":17.57,"recent_avg_primary_pnl_pct":1.37,"hit_rate":1.0,"last_call":"2026-08-11","score":10.3544,"top_handle":"Stephanie_Link","top_handle_free_display":"xxxxxxxxnk","top_handle_is_benchmark":false,"best_call_date":"2026-05-14","best_call_label":"+17.6% PANW long","rank":5},{"ticker":"GLD","side":"long","n_mentions":7,"n_unique_handles":4,"avg_primary_pnl_pct":2.13,"best_primary_pnl_pct":8.58,"recent_avg_primary_pnl_pct":6.16,"hit_rate":0.7143,"last_call":"2026-08-08","score":10.0463,"top_handle":"TaviCosta","top_handle_free_display":"xxxxxxxxta","top_handle_is_benchmark":false,"best_call_date":"2026-07-22","best_call_label":"+8.6% GLD long","rank":6},{"ticker":"IBM","side":"long","n_mentions":3,"n_unique_handles":3,"avg_primary_pnl_pct":6.5,"best_primary_pnl_pct":7.18,"recent_avg_primary_pnl_pct":7.03,"hit_rate":1.0,"last_call":"2026-07-14","score":9.4605,"top_handle":"pelositracker","top_handle_free_display":"@pelositracker","top_handle_is_benchmark":true,"best_call_date":"2026-07-14","best_call_label":"+7.2% IBM long","rank":7},{"ticker":"SNOW","side":"long","n_mentions":4,"n_unique_handles":4,"avg_primary_pnl_pct":5.85,"best_primary_pnl_pct":11.86,"recent_avg_primary_pnl_pct":1.29,"hit_rate":1.0,"last_call":"2026-08-11","score":8.7802,"top_handle":"jimcramer","top_handle_free_display":"xxxxxxxxer","top_handle_is_benchmark":false,"best_call_date":"2026-07-30","best_call_label":"+11.9% SNOW long","rank":8},{"ticker":"UBER","side":"long","n_mentions":4,"n_unique_handles":4,"avg_primary_pnl_pct":-1.24,"best_primary_pnl_pct":9.82,"recent_avg_primary_pnl_pct":8.73,"hit_rate":0.5,"last_call":"2026-08-05","score":7.1863,"top_handle":"garyblack00","top_handle_free_display":"xxxxxxxx00","top_handle_is_benchmark":false,"best_call_date":"2026-08-05","best_call_label":"+9.8% UBER long","rank":9},{"ticker":"AAPL","side":"long","n_mentions":5,"n_unique_handles":2,"avg_primary_pnl_pct":0.75,"best_primary_pnl_pct":21.1,"recent_avg_primary_pnl_pct":-3.12,"hit_rate":0.2,"last_call":"2026-08-10","score":6.2061,"top_handle":"munster_gene","top_handle_free_display":"xxxxxxxxne","top_handle_is_benchmark":false,"best_call_date":"2026-06-25","best_call_label":"+21.1% AAPL long","rank":10},{"ticker":"DELL","side":"long","n_mentions":3,"n_unique_handles":2,"avg_primary_pnl_pct":1.7,"best_primary_pnl_pct":8.33,"recent_avg_primary_pnl_pct":4.77,"hit_rate":0.6667,"last_call":"2026-07-22","score":5.6878,"top_handle":"QuiverQuant","top_handle_free_display":"@QuiverQuant","top_handle_is_benchmark":true,"best_call_date":"2026-07-22","best_call_label":"+8.3% DELL long","rank":11},{"ticker":"SPY","side":"long","n_mentions":17,"n_unique_handles":7,"avg_primary_pnl_pct":0.8,"best_primary_pnl_pct":3.86,"recent_avg_primary_pnl_pct":1.1,"hit_rate":0.5882,"last_call":"2026-08-11","score":4.3922,"top_handle":"KobeissiLetter","top_handle_free_display":"xxxxxxxxxer","top_handle_is_benchmark":false,"best_call_date":"2026-06-10","best_call_label":"+3.9% SPY long","rank":12},{"ticker":"CRWD","side":"long","n_mentions":5,"n_unique_handles":5,"avg_primary_pnl_pct":1.6,"best_primary_pnl_pct":4.28,"recent_avg_primary_pnl_pct":0.86,"hit_rate":1.0,"last_call":"2026-08-11","score":3.362,"top_handle":"WallStJesus","top_handle_free_display":"xxxxxxxxus","top_handle_is_benchmark":false,"best_call_date":"2026-07-14","best_call_label":"+4.3% CRWD long","rank":13},{"ticker":"AVGO","side":"long","n_mentions":3,"n_unique_handles":3,"avg_primary_pnl_pct":-0.66,"best_primary_pnl_pct":3.72,"recent_avg_primary_pnl_pct":0.67,"hit_rate":0.3333,"last_call":"2026-08-07","score":0.9443,"top_handle":"traderstewie","top_handle_free_display":"xxxxxxxxie","top_handle_is_benchmark":false,"best_call_date":"2026-08-03","best_call_label":"+3.7% AVGO long","rank":14},{"ticker":"AMZN","side":"long","n_mentions":3,"n_unique_handles":3,"avg_primary_pnl_pct":-3.01,"best_primary_pnl_pct":-2.59,"recent_avg_primary_pnl_pct":-2.71,"hit_rate":0.0,"last_call":"2026-08-03","score":-3.9049,"top_handle":"InsiderFinancex","top_handle_free_display":"@InsiderFinancex","top_handle_is_benchmark":true,"best_call_date":"2026-08-03","best_call_label":"-2.6% AMZN long","rank":15}],"who_to_follow_longs":[{"rank":1,"handle":"Stephanie_Link","free_display":"xxxxxxxxnk","handle_display":"xxxxxxxxnk","handle_masked":"xxxxxxxxnk","is_benchmark":false,"n_calls":17,"n_priced_longs":17,"pnl_on_10k":510.77,"hit_rate":0.5294,"avg_pnl_pct":5.11,"best_call_pct":30.49,"best_call_ticker":"MRVL","best_call_side":"long","best_call_label":"+30.5% MRVL long","vs_spy_on_10k":312.0,"vs_spy_pct":3.12,"streak":"L5","streak_label":"L5","last_call":"2026-08-06","sample_tier":"main"},{"rank":2,"handle":"garyblack00","free_display":"xxxxxxxx00","handle_display":"xxxxxxxx00","handle_masked":"xxxxxxxx00","is_benchmark":false,"n_calls":5,"n_priced_longs":5,"pnl_on_10k":440.84,"hit_rate":0.6,"avg_pnl_pct":4.41,"best_call_pct":10.27,"best_call_ticker":"META","best_call_side":"long","best_call_label":"+10.3% META long","vs_spy_on_10k":286.99,"vs_spy_pct":2.87,"streak":"L1","streak_label":"L1","last_call":"2026-08-05","sample_tier":"early"},{"rank":3,"handle":"Fundstrat","free_display":"xxxxxxxxat","handle_display":"xxxxxxxxat","handle_masked":"xxxxxxxxat","is_benchmark":false,"n_calls":9,"n_priced_longs":9,"pnl_on_10k":227.4,"hit_rate":0.7778,"avg_pnl_pct":2.27,"best_call_pct":12.02,"best_call_ticker":"EWY","best_call_side":"long","best_call_label":"+12.0% EWY long","vs_spy_on_10k":-49.03,"vs_spy_pct":-0.49,"streak":"W7","streak_label":"W7","last_call":"2026-08-03","sample_tier":"main"},{"rank":4,"handle":"pelositracker","free_display":"@pelositracker","handle_display":"@pelositracker","handle_masked":"@pelositracker","is_benchmark":true,"n_calls":17,"n_priced_longs":17,"pnl_on_10k":216.06,"hit_rate":0.8824,"avg_pnl_pct":2.16,"best_call_pct":18.52,"best_call_ticker":"ICHR","best_call_side":"long","best_call_label":"+18.5% ICHR long","vs_spy_on_10k":42.05,"vs_spy_pct":0.42,"streak":"W13","streak_label":"W13","last_call":"2026-08-11","sample_tier":"main"},{"rank":5,"handle":"KobeissiLetter","free_display":"xxxxxxxxer","handle_display":"xxxxxxxxer","handle_masked":"xxxxxxxxer","is_benchmark":false,"n_calls":6,"n_priced_longs":6,"pnl_on_10k":190.98,"hit_rate":1.0,"avg_pnl_pct":1.91,"best_call_pct":3.86,"best_call_ticker":"SPY","best_call_side":"long","best_call_label":"+3.9% SPY long","vs_spy_on_10k":11.46,"vs_spy_pct":0.11,"streak":"W6","streak_label":"W6","last_call":"2026-07-31","sample_tier":"early"},{"rank":6,"handle":"InsiderFinancex","free_display":"@InsiderFinancex","handle_display":"@InsiderFinancex","handle_masked":"@InsiderFinancex","is_benchmark":true,"n_calls":10,"n_priced_longs":10,"pnl_on_10k":167.44,"hit_rate":0.7,"avg_pnl_pct":1.67,"best_call_pct":30.2,"best_call_ticker":"MSFT","best_call_side":"long","best_call_label":"+30.2% MSFT long","vs_spy_on_10k":57.32,"vs_spy_pct":0.57,"streak":"W3","streak_label":"W3","last_call":"2026-08-06","sample_tier":"main"},{"rank":7,"handle":"QuiverQuant","free_display":"@QuiverQuant","handle_display":"@QuiverQuant","handle_masked":"@QuiverQuant","is_benchmark":true,"n_calls":12,"n_priced_longs":12,"pnl_on_10k":153.73,"hit_rate":0.6667,"avg_pnl_pct":1.54,"best_call_pct":20.43,"best_call_ticker":"VOYG","best_call_side":"long","best_call_label":"+20.4% VOYG long","vs_spy_on_10k":-41.24,"vs_spy_pct":-0.41,"streak":"W3","streak_label":"W3","last_call":"2026-08-11","sample_tier":"main"},{"rank":8,"handle":"traderstewie","free_display":"xxxxxxxxie","handle_display":"xxxxxxxxie","handle_masked":"xxxxxxxxie","is_benchmark":false,"n_calls":9,"n_priced_longs":9,"pnl_on_10k":125.7,"hit_rate":0.7778,"avg_pnl_pct":1.26,"best_call_pct":21.06,"best_call_ticker":"GRPN","best_call_side":"long","best_call_label":"+21.1% GRPN long","vs_spy_on_10k":-69.98,"vs_spy_pct":-0.7,"streak":"W5","streak_label":"W5","last_call":"2026-08-03","sample_tier":"main"},{"rank":9,"handle":"RyanDetrick","free_display":"xxxxxxxxck","handle_display":"xxxxxxxxck","handle_masked":"xxxxxxxxck","is_benchmark":false,"n_calls":7,"n_priced_longs":7,"pnl_on_10k":16.16,"hit_rate":0.4286,"avg_pnl_pct":0.16,"best_call_pct":3.61,"best_call_ticker":"XLI","best_call_side":"long","best_call_label":"+3.6% XLI long","vs_spy_on_10k":-76.13,"vs_spy_pct":-0.76,"streak":"L1","streak_label":"L1","last_call":"2026-08-11","sample_tier":"early"},{"rank":10,"handle":"GovStockTracker","free_display":"@GovStockTracker","handle_display":"@GovStockTracker","handle_masked":"@GovStockTracker","is_benchmark":true,"n_calls":10,"n_priced_longs":10,"pnl_on_10k":-4.08,"hit_rate":0.4,"avg_pnl_pct":-0.04,"best_call_pct":6.47,"best_call_ticker":"CEG","best_call_side":"long","best_call_label":"+6.5% CEG long","vs_spy_on_10k":-25.63,"vs_spy_pct":-0.26,"streak":"W2","streak_label":"W2","last_call":"2026-08-11","sample_tier":"main"},{"rank":11,"handle":"TaviCosta","free_display":"xxxxxxxxta","handle_display":"xxxxxxxxta","handle_masked":"xxxxxxxxta","is_benchmark":false,"n_calls":15,"n_priced_longs":15,"pnl_on_10k":-4.3,"hit_rate":0.4667,"avg_pnl_pct":-0.04,"best_call_pct":27.82,"best_call_ticker":"GDX","best_call_side":"long","best_call_label":"+27.8% GDX long","vs_spy_on_10k":-61.55,"vs_spy_pct":-0.62,"streak":"L2","streak_label":"L2","last_call":"2026-08-11","sample_tier":"main"},{"rank":12,"handle":"Jake__Wujastyk","free_display":"xxxxxxxxyk","handle_display":"xxxxxxxxyk","handle_masked":"xxxxxxxxyk","is_benchmark":false,"n_calls":15,"n_priced_longs":15,"pnl_on_10k":-42.42,"hit_rate":0.4667,"avg_pnl_pct":-0.42,"best_call_pct":30.2,"best_call_ticker":"MSFT","best_call_side":"long","best_call_label":"+30.2% MSFT long","vs_spy_on_10k":-34.88,"vs_spy_pct":-0.35,"streak":"L2","streak_label":"L2","last_call":"2026-08-10","sample_tier":"main"},{"rank":13,"handle":"jimcramer","free_display":"xxxxxxxxxer","handle_display":"xxxxxxxxxer","handle_masked":"xxxxxxxxxer","is_benchmark":false,"n_calls":11,"n_priced_longs":11,"pnl_on_10k":-53.09,"hit_rate":0.6364,"avg_pnl_pct":-0.53,"best_call_pct":15.37,"best_call_ticker":"INTC","best_call_side":"long","best_call_label":"+15.4% INTC long","vs_spy_on_10k":-237.08,"vs_spy_pct":-2.37,"streak":"L2","streak_label":"L2","last_call":"2026-08-03","sample_tier":"main"},{"rank":14,"handle":"munster_gene","free_display":"xxxxxxxxne","handle_display":"xxxxxxxxne","handle_masked":"xxxxxxxxne","is_benchmark":false,"n_calls":14,"n_priced_longs":14,"pnl_on_10k":-112.28,"hit_rate":0.2857,"avg_pnl_pct":-1.12,"best_call_pct":30.74,"best_call_ticker":"SPCX","best_call_side":"long","best_call_label":"+30.7% SPCX long","vs_spy_on_10k":-278.23,"vs_spy_pct":-2.78,"streak":"L1","streak_label":"L1","last_call":"2026-08-10","sample_tier":"main"},{"rank":15,"handle":"capitol2iq","free_display":"@capitol2iq","handle_display":"@capitol2iq","handle_masked":"@capitol2iq","is_benchmark":true,"n_calls":11,"n_priced_longs":11,"pnl_on_10k":-176.7,"hit_rate":0.4545,"avg_pnl_pct":-1.77,"best_call_pct":11.77,"best_call_ticker":"ENTG","best_call_side":"long","best_call_label":"+11.8% ENTG long","vs_spy_on_10k":-299.48,"vs_spy_pct":-2.99,"streak":"L2","streak_label":"L2","last_call":"2026-08-11","sample_tier":"main"}],"follow_longs":[{"rank":1,"handle":"Stephanie_Link","free_display":"xxxxxxxxnk","handle_display":"xxxxxxxxnk","handle_masked":"xxxxxxxxnk","is_benchmark":false,"n_calls":17,"n_priced_longs":17,"pnl_on_10k":510.77,"hit_rate":0.5294,"avg_pnl_pct":5.11,"best_call_pct":30.49,"best_call_ticker":"MRVL","best_call_side":"long","best_call_label":"+30.5% MRVL long","vs_spy_on_10k":312.0,"vs_spy_pct":3.12,"streak":"L5","streak_label":"L5","last_call":"2026-08-06","sample_tier":"main"},{"rank":2,"handle":"garyblack00","free_display":"xxxxxxxx00","handle_display":"xxxxxxxx00","handle_masked":"xxxxxxxx00","is_benchmark":false,"n_calls":5,"n_priced_longs":5,"pnl_on_10k":440.84,"hit_rate":0.6,"avg_pnl_pct":4.41,"best_call_pct":10.27,"best_call_ticker":"META","best_call_side":"long","best_call_label":"+10.3% META long","vs_spy_on_10k":286.99,"vs_spy_pct":2.87,"streak":"L1","streak_label":"L1","last_call":"2026-08-05","sample_tier":"early"},{"rank":3,"handle":"Fundstrat","free_display":"xxxxxxxxat","handle_display":"xxxxxxxxat","handle_masked":"xxxxxxxxat","is_benchmark":false,"n_calls":9,"n_priced_longs":9,"pnl_on_10k":227.4,"hit_rate":0.7778,"avg_pnl_pct":2.27,"best_call_pct":12.02,"best_call_ticker":"EWY","best_call_side":"long","best_call_label":"+12.0% EWY long","vs_spy_on_10k":-49.03,"vs_spy_pct":-0.49,"streak":"W7","streak_label":"W7","last_call":"2026-08-03","sample_tier":"main"},{"rank":4,"handle":"pelositracker","free_display":"@pelositracker","handle_display":"@pelositracker","handle_masked":"@pelositracker","is_benchmark":true,"n_calls":17,"n_priced_longs":17,"pnl_on_10k":216.06,"hit_rate":0.8824,"avg_pnl_pct":2.16,"best_call_pct":18.52,"best_call_ticker":"ICHR","best_call_side":"long","best_call_label":"+18.5% ICHR long","vs_spy_on_10k":42.05,"vs_spy_pct":0.42,"streak":"W13","streak_label":"W13","last_call":"2026-08-11","sample_tier":"main"},{"rank":5,"handle":"KobeissiLetter","free_display":"xxxxxxxxer","handle_display":"xxxxxxxxer","handle_masked":"xxxxxxxxer","is_benchmark":false,"n_calls":6,"n_priced_longs":6,"pnl_on_10k":190.98,"hit_rate":1.0,"avg_pnl_pct":1.91,"best_call_pct":3.86,"best_call_ticker":"SPY","best_call_side":"long","best_call_label":"+3.9% SPY long","vs_spy_on_10k":11.46,"vs_spy_pct":0.11,"streak":"W6","streak_label":"W6","last_call":"2026-07-31","sample_tier":"early"},{"rank":6,"handle":"InsiderFinancex","free_display":"@InsiderFinancex","handle_display":"@InsiderFinancex","handle_masked":"@InsiderFinancex","is_benchmark":true,"n_calls":10,"n_priced_longs":10,"pnl_on_10k":167.44,"hit_rate":0.7,"avg_pnl_pct":1.67,"best_call_pct":30.2,"best_call_ticker":"MSFT","best_call_side":"long","best_call_label":"+30.2% MSFT long","vs_spy_on_10k":57.32,"vs_spy_pct":0.57,"streak":"W3","streak_label":"W3","last_call":"2026-08-06","sample_tier":"main"},{"rank":7,"handle":"QuiverQuant","free_display":"@QuiverQuant","handle_display":"@QuiverQuant","handle_masked":"@QuiverQuant","is_benchmark":true,"n_calls":12,"n_priced_longs":12,"pnl_on_10k":153.73,"hit_rate":0.6667,"avg_pnl_pct":1.54,"best_call_pct":20.43,"best_call_ticker":"VOYG","best_call_side":"long","best_call_label":"+20.4% VOYG long","vs_spy_on_10k":-41.24,"vs_spy_pct":-0.41,"streak":"W3","streak_label":"W3","last_call":"2026-08-11","sample_tier":"main"},{"rank":8,"handle":"traderstewie","free_display":"xxxxxxxxie","handle_display":"xxxxxxxxie","handle_masked":"xxxxxxxxie","is_benchmark":false,"n_calls":9,"n_priced_longs":9,"pnl_on_10k":125.7,"hit_rate":0.7778,"avg_pnl_pct":1.26,"best_call_pct":21.06,"best_call_ticker":"GRPN","best_call_side":"long","best_call_label":"+21.1% GRPN long","vs_spy_on_10k":-69.98,"vs_spy_pct":-0.7,"streak":"W5","streak_label":"W5","last_call":"2026-08-03","sample_tier":"main"},{"rank":9,"handle":"RyanDetrick","free_display":"xxxxxxxxck","handle_display":"xxxxxxxxck","handle_masked":"xxxxxxxxck","is_benchmark":false,"n_calls":7,"n_priced_longs":7,"pnl_on_10k":16.16,"hit_rate":0.4286,"avg_pnl_pct":0.16,"best_call_pct":3.61,"best_call_ticker":"XLI","best_call_side":"long","best_call_label":"+3.6% XLI long","vs_spy_on_10k":-76.13,"vs_spy_pct":-0.76,"streak":"L1","streak_label":"L1","last_call":"2026-08-11","sample_tier":"early"},{"rank":10,"handle":"GovStockTracker","free_display":"@GovStockTracker","handle_display":"@GovStockTracker","handle_masked":"@GovStockTracker","is_benchmark":true,"n_calls":10,"n_priced_longs":10,"pnl_on_10k":-4.08,"hit_rate":0.4,"avg_pnl_pct":-0.04,"best_call_pct":6.47,"best_call_ticker":"CEG","best_call_side":"long","best_call_label":"+6.5% CEG long","vs_spy_on_10k":-25.63,"vs_spy_pct":-0.26,"streak":"W2","streak_label":"W2","last_call":"2026-08-11","sample_tier":"main"},{"rank":11,"handle":"TaviCosta","free_display":"xxxxxxxxta","handle_display":"xxxxxxxxta","handle_masked":"xxxxxxxxta","is_benchmark":false,"n_calls":15,"n_priced_longs":15,"pnl_on_10k":-4.3,"hit_rate":0.4667,"avg_pnl_pct":-0.04,"best_call_pct":27.82,"best_call_ticker":"GDX","best_call_side":"long","best_call_label":"+27.8% GDX long","vs_spy_on_10k":-61.55,"vs_spy_pct":-0.62,"streak":"L2","streak_label":"L2","last_call":"2026-08-11","sample_tier":"main"},{"rank":12,"handle":"Jake__Wujastyk","free_display":"xxxxxxxxyk","handle_display":"xxxxxxxxyk","handle_masked":"xxxxxxxxyk","is_benchmark":false,"n_calls":15,"n_priced_longs":15,"pnl_on_10k":-42.42,"hit_rate":0.4667,"avg_pnl_pct":-0.42,"best_call_pct":30.2,"best_call_ticker":"MSFT","best_call_side":"long","best_call_label":"+30.2% MSFT long","vs_spy_on_10k":-34.88,"vs_spy_pct":-0.35,"streak":"L2","streak_label":"L2","last_call":"2026-08-10","sample_tier":"main"},{"rank":13,"handle":"jimcramer","free_display":"xxxxxxxxxer","handle_display":"xxxxxxxxxer","handle_masked":"xxxxxxxxxer","is_benchmark":false,"n_calls":11,"n_priced_longs":11,"pnl_on_10k":-53.09,"hit_rate":0.6364,"avg_pnl_pct":-0.53,"best_call_pct":15.37,"best_call_ticker":"INTC","best_call_side":"long","best_call_label":"+15.4% INTC long","vs_spy_on_10k":-237.08,"vs_spy_pct":-2.37,"streak":"L2","streak_label":"L2","last_call":"2026-08-03","sample_tier":"main"},{"rank":14,"handle":"munster_gene","free_display":"xxxxxxxxne","handle_display":"xxxxxxxxne","handle_masked":"xxxxxxxxne","is_benchmark":false,"n_calls":14,"n_priced_longs":14,"pnl_on_10k":-112.28,"hit_rate":0.2857,"avg_pnl_pct":-1.12,"best_call_pct":30.74,"best_call_ticker":"SPCX","best_call_side":"long","best_call_label":"+30.7% SPCX long","vs_spy_on_10k":-278.23,"vs_spy_pct":-2.78,"streak":"L1","streak_label":"L1","last_call":"2026-08-10","sample_tier":"main"},{"rank":15,"handle":"capitol2iq","free_display":"@capitol2iq","handle_display":"@capitol2iq","handle_masked":"@capitol2iq","is_benchmark":true,"n_calls":11,"n_priced_longs":11,"pnl_on_10k":-176.7,"hit_rate":0.4545,"avg_pnl_pct":-1.77,"best_call_pct":11.77,"best_call_ticker":"ENTG","best_call_side":"long","best_call_label":"+11.8% ENTG long","vs_spy_on_10k":-299.48,"vs_spy_pct":-2.99,"streak":"L2","streak_label":"L2","last_call":"2026-08-11","sample_tier":"main"}],"n_long_calls_priced":209,"n_benchmarks_visible":5}</script>
+  <script type="application/json" id="pro-board-data">{"tier":"free","product":"X$ Board","paywall":"Non-benchmark handles masked (xxxxxxxx + last 2 chars). Famous benchmark @handles shown. Full retail identities + receipts on paid.","updated_at":"2026-08-12 2:49 PM CDT","asof":"2026-08-12","vs_spy_definition":"vs_spy_on_10k = account equal-weight $ P&L on $10k minus long-SPY equal-weight $ P&L on $10k over the same per-call entry→primary-exit windows. vs_spy_pct = matched-call avg account primary_pnl_pct − avg spy_pnl_pct.","best_call_definition":"Max primary_pnl_pct among account's priced calls.","featured_top":15,"top15":[{"rank":1,"handle_display":"xxxxxxxxnk","handle_masked":"xxxxxxxxnk","handle":null,"is_benchmark":false,"pnl_on_10k":512.62,"best_call_pct":30.49,"best_call_ticker":"MRVL","best_call_side":"long","best_call_label":"+30.5% MRVL long","vs_spy_on_10k":325.17,"vs_spy_pct":3.25,"hit_rate":0.5556,"n_calls":18,"streak":"L5"},{"rank":2,"handle_display":"xxxxxxxxss","handle_masked":"xxxxxxxxss","handle":null,"is_benchmark":false,"pnl_on_10k":366.61,"best_call_pct":34.53,"best_call_ticker":"SPCX","best_call_side":"short","best_call_label":"+34.5% SPCX short","vs_spy_on_10k":270.57,"vs_spy_pct":2.71,"hit_rate":0.5625,"n_calls":16,"streak":"W1"},{"rank":3,"handle_display":"@QuiverQuant","handle_masked":"@QuiverQuant","handle":"QuiverQuant","is_benchmark":true,"pnl_on_10k":234.41,"best_call_pct":20.43,"best_call_ticker":"VOYG","best_call_side":"long","best_call_label":"+20.4% VOYG long","vs_spy_on_10k":66.06,"vs_spy_pct":0.66,"hit_rate":0.6923,"n_calls":13,"streak":"W3"},{"rank":4,"handle_display":"xxxxxxxxat","handle_masked":"xxxxxxxxat","handle":null,"is_benchmark":false,"pnl_on_10k":227.4,"best_call_pct":12.02,"best_call_ticker":"EWY","best_call_side":"long","best_call_label":"+12.0% EWY long","vs_spy_on_10k":-49.03,"vs_spy_pct":-0.49,"hit_rate":0.7778,"n_calls":9,"streak":"W7"},{"rank":5,"handle_display":"xxxxxxxxie","handle_masked":"xxxxxxxxie","handle":null,"is_benchmark":false,"pnl_on_10k":125.7,"best_call_pct":21.06,"best_call_ticker":"GRPN","best_call_side":"long","best_call_label":"+21.1% GRPN long","vs_spy_on_10k":-69.98,"vs_spy_pct":-0.7,"hit_rate":0.7778,"n_calls":9,"streak":"W5"},{"rank":6,"handle_display":"xxxxxxxx00","handle_masked":"xxxxxxxx00","handle":null,"is_benchmark":false,"pnl_on_10k":108.88,"best_call_pct":34.53,"best_call_ticker":"SPCX","best_call_side":"short","best_call_label":"+34.5% SPCX short","vs_spy_on_10k":-69.85,"vs_spy_pct":-0.7,"hit_rate":0.5385,"n_calls":13,"streak":"L2"},{"rank":7,"handle_display":"@pelositracker","handle_masked":"@pelositracker","handle":"pelositracker","is_benchmark":true,"pnl_on_10k":96.59,"best_call_pct":18.52,"best_call_ticker":"ICHR","best_call_side":"long","best_call_label":"+18.5% ICHR long","vs_spy_on_10k":-104.54,"vs_spy_pct":-1.05,"hit_rate":0.75,"n_calls":20,"streak":"W11"},{"rank":8,"handle_display":"xxxxxxxxck","handle_masked":"xxxxxxxxck","handle":null,"is_benchmark":false,"pnl_on_10k":27.34,"best_call_pct":3.61,"best_call_ticker":"XLI","best_call_side":"long","best_call_label":"+3.6% XLI long","vs_spy_on_10k":-66.91,"vs_spy_pct":-0.67,"hit_rate":0.5556,"n_calls":9,"streak":"W1"},{"rank":9,"handle_display":"xxxxxxxxta","handle_masked":"xxxxxxxxta","handle":null,"is_benchmark":false,"pnl_on_10k":-4.3,"best_call_pct":27.82,"best_call_ticker":"GDX","best_call_side":"long","best_call_label":"+27.8% GDX long","vs_spy_on_10k":-61.55,"vs_spy_pct":-0.62,"hit_rate":0.4667,"n_calls":15,"streak":"L2"},{"rank":10,"handle_display":"xxxxxxxxyk","handle_masked":"xxxxxxxxyk","handle":null,"is_benchmark":false,"pnl_on_10k":-42.42,"best_call_pct":30.2,"best_call_ticker":"MSFT","best_call_side":"long","best_call_label":"+30.2% MSFT long","vs_spy_on_10k":-34.88,"vs_spy_pct":-0.35,"hit_rate":0.4667,"n_calls":15,"streak":"L2"},{"rank":11,"handle_display":"xxxxxxxxer","handle_masked":"xxxxxxxxer","handle":null,"is_benchmark":false,"pnl_on_10k":-53.09,"best_call_pct":15.37,"best_call_ticker":"INTC","best_call_side":"long","best_call_label":"+15.4% INTC long","vs_spy_on_10k":-237.08,"vs_spy_pct":-2.37,"hit_rate":0.6364,"n_calls":11,"streak":"L2"},{"rank":12,"handle_display":"@GovStockTracker","handle_masked":"@GovStockTracker","handle":"GovStockTracker","is_benchmark":true,"pnl_on_10k":-54.27,"best_call_pct":6.47,"best_call_ticker":"CEG","best_call_side":"long","best_call_label":"+6.5% CEG long","vs_spy_on_10k":-64.53,"vs_spy_pct":-0.65,"hit_rate":0.4667,"n_calls":15,"streak":"W3"},{"rank":13,"handle_display":"@InsiderFinancex","handle_masked":"@InsiderFinancex","handle":"InsiderFinancex","is_benchmark":true,"pnl_on_10k":-117.76,"best_call_pct":30.2,"best_call_ticker":"MSFT","best_call_side":"long","best_call_label":"+30.2% MSFT long","vs_spy_on_10k":-316.58,"vs_spy_pct":-3.17,"hit_rate":0.5556,"n_calls":18,"streak":"W3"},{"rank":14,"handle_display":"xxxxxxxxgh","handle_masked":"xxxxxxxxgh","handle":null,"is_benchmark":false,"pnl_on_10k":-141.72,"best_call_pct":4.11,"best_call_ticker":"XLE","best_call_side":"long","best_call_label":"+4.1% XLE long","vs_spy_on_10k":-238.74,"vs_spy_pct":-2.39,"hit_rate":0.75,"n_calls":12,"streak":"W6"},{"rank":15,"handle_display":"@capitol2iq","handle_masked":"@capitol2iq","handle":"capitol2iq","is_benchmark":true,"pnl_on_10k":-173.6,"best_call_pct":11.77,"best_call_ticker":"ENTG","best_call_side":"long","best_call_label":"+11.8% ENTG long","vs_spy_on_10k":-290.88,"vs_spy_pct":-2.91,"hit_rate":0.5,"n_calls":16,"streak":"L2"}],"top10":[{"rank":1,"handle_display":"xxxxxxxxnk","handle_masked":"xxxxxxxxnk","handle":null,"is_benchmark":false,"pnl_on_10k":512.62,"best_call_pct":30.49,"best_call_ticker":"MRVL","best_call_side":"long","best_call_label":"+30.5% MRVL long","vs_spy_on_10k":325.17,"vs_spy_pct":3.25,"hit_rate":0.5556,"n_calls":18,"streak":"L5"},{"rank":2,"handle_display":"xxxxxxxxss","handle_masked":"xxxxxxxxss","handle":null,"is_benchmark":false,"pnl_on_10k":366.61,"best_call_pct":34.53,"best_call_ticker":"SPCX","best_call_side":"short","best_call_label":"+34.5% SPCX short","vs_spy_on_10k":270.57,"vs_spy_pct":2.71,"hit_rate":0.5625,"n_calls":16,"streak":"W1"},{"rank":3,"handle_display":"@QuiverQuant","handle_masked":"@QuiverQuant","handle":"QuiverQuant","is_benchmark":true,"pnl_on_10k":234.41,"best_call_pct":20.43,"best_call_ticker":"VOYG","best_call_side":"long","best_call_label":"+20.4% VOYG long","vs_spy_on_10k":66.06,"vs_spy_pct":0.66,"hit_rate":0.6923,"n_calls":13,"streak":"W3"},{"rank":4,"handle_display":"xxxxxxxxat","handle_masked":"xxxxxxxxat","handle":null,"is_benchmark":false,"pnl_on_10k":227.4,"best_call_pct":12.02,"best_call_ticker":"EWY","best_call_side":"long","best_call_label":"+12.0% EWY long","vs_spy_on_10k":-49.03,"vs_spy_pct":-0.49,"hit_rate":0.7778,"n_calls":9,"streak":"W7"},{"rank":5,"handle_display":"xxxxxxxxie","handle_masked":"xxxxxxxxie","handle":null,"is_benchmark":false,"pnl_on_10k":125.7,"best_call_pct":21.06,"best_call_ticker":"GRPN","best_call_side":"long","best_call_label":"+21.1% GRPN long","vs_spy_on_10k":-69.98,"vs_spy_pct":-0.7,"hit_rate":0.7778,"n_calls":9,"streak":"W5"},{"rank":6,"handle_display":"xxxxxxxx00","handle_masked":"xxxxxxxx00","handle":null,"is_benchmark":false,"pnl_on_10k":108.88,"best_call_pct":34.53,"best_call_ticker":"SPCX","best_call_side":"short","best_call_label":"+34.5% SPCX short","vs_spy_on_10k":-69.85,"vs_spy_pct":-0.7,"hit_rate":0.5385,"n_calls":13,"streak":"L2"},{"rank":7,"handle_display":"@pelositracker","handle_masked":"@pelositracker","handle":"pelositracker","is_benchmark":true,"pnl_on_10k":96.59,"best_call_pct":18.52,"best_call_ticker":"ICHR","best_call_side":"long","best_call_label":"+18.5% ICHR long","vs_spy_on_10k":-104.54,"vs_spy_pct":-1.05,"hit_rate":0.75,"n_calls":20,"streak":"W11"},{"rank":8,"handle_display":"xxxxxxxxck","handle_masked":"xxxxxxxxck","handle":null,"is_benchmark":false,"pnl_on_10k":27.34,"best_call_pct":3.61,"best_call_ticker":"XLI","best_call_side":"long","best_call_label":"+3.6% XLI long","vs_spy_on_10k":-66.91,"vs_spy_pct":-0.67,"hit_rate":0.5556,"n_calls":9,"streak":"W1"},{"rank":9,"handle_display":"xxxxxxxxta","handle_masked":"xxxxxxxxta","handle":null,"is_benchmark":false,"pnl_on_10k":-4.3,"best_call_pct":27.82,"best_call_ticker":"GDX","best_call_side":"long","best_call_label":"+27.8% GDX long","vs_spy_on_10k":-61.55,"vs_spy_pct":-0.62,"hit_rate":0.4667,"n_calls":15,"streak":"L2"},{"rank":10,"handle_display":"xxxxxxxxyk","handle_masked":"xxxxxxxxyk","handle":null,"is_benchmark":false,"pnl_on_10k":-42.42,"best_call_pct":30.2,"best_call_ticker":"MSFT","best_call_side":"long","best_call_label":"+30.2% MSFT long","vs_spy_on_10k":-34.88,"vs_spy_pct":-0.35,"hit_rate":0.4667,"n_calls":15,"streak":"L2"}],"unlock":"Paid unlocks all real @handles, post links, and per-call receipts.","masking_rule":"xxxxxxxx + last 2 chars of handle for non-benchmarks; real @handle for benchmarks.json accounts"}</script>
+
+  <script>
+    (function () {
+      const money = (n) => {
+        if (n == null || Number.isNaN(n)) return "—";
+        const sign = n > 0 ? "+" : n < 0 ? "−" : "";
+        return sign + "$" + Math.abs(Math.round(n)).toLocaleString("en-US");
+      };
+      const pctNum = (n) => {
+        if (n == null || Number.isNaN(n)) return "—";
+        const sign = n > 0 ? "+" : n < 0 ? "" : "";
+        return sign + Number(n).toFixed(1) + "%";
+      };
+      const pctRate = (r) => Math.round((r || 0) * 100) + "%";
+      const streakClass = (s) => (String(s || "").startsWith("L") ? "l" : "w");
+
+      const handleHtml = (display, isBench) => (
+        "<span class=\"handle " + (isBench ? "real" : "masked") + "\">" +
+        (display || "????????") +
+        (isBench ? " <span class=\"star\" title=\"Famous benchmark\">★</span>" : "") +
+        "</span>"
+      );
+
+      function renderHot(data) {
+        const follow = data.who_to_follow_longs || data.follow_longs || [];
+        const body = document.getElementById("follow-longs-body");
+        if (!follow.length) {
+          body.innerHTML = "<tr><td colspan=\"8\" style=\"color:var(--dim)\">No longs-only follow rows — run sync_data.py</td></tr>";
+        } else {
+          body.innerHTML = follow.map((r) => {
+            const pnlCls = (r.pnl_on_10k || 0) >= 0 ? "pos" : "neg";
+            const spyVal = r.vs_spy_on_10k;
+            const spyCls = spyVal == null || Number.isNaN(spyVal) ? "" : ((spyVal || 0) >= 0 ? "pos" : "neg");
+            const spyHtml = spyVal == null || Number.isNaN(spyVal)
+              ? "<span style=\"color:var(--dim)\">—</span>"
+              : money(spyVal);
+            const disp = r.free_display || r.handle_display || r.handle_masked;
+            const streak = r.streak_label || r.streak || "—";
+            const n = r.n_priced_longs != null ? r.n_priced_longs : r.n_calls;
+            return (
+              "<tr class=\"" + (r.is_benchmark ? "benchmark" : "") + "\">" +
+                "<td class=\"rank\">" + r.rank + "</td>" +
+                "<td>" + handleHtml(disp, !!r.is_benchmark) + "</td>" +
+                "<td class=\"num " + pnlCls + "\">" + money(r.pnl_on_10k) + "</td>" +
+                "<td><span class=\"best\">" + (r.best_call_label || "—") + "</span></td>" +
+                "<td class=\"num " + spyCls + "\">" + spyHtml + "</td>" +
+                "<td class=\"num mono\">" + pctRate(r.hit_rate) + "</td>" +
+                "<td class=\"num mono\">" + (n ?? "—") + "</td>" +
+                "<td><span class=\"streak " + streakClass(streak) + "\">" + streak + "</span></td>" +
+              "</tr>"
+            );
+          }).join("");
+        }
+
+        document.getElementById("updated-label").textContent =
+          "Updated " + (data.updated_at || (data.meta && data.meta.updated_at) || data.asof || "recently");
+
+        const benches = [];
+        follow.forEach((r) => {
+          if (r.is_benchmark) benches.push(r.free_display || r.handle_display || ("@" + r.handle));
+        });
+        const uniq = [...new Set(benches.filter(Boolean))];
+        document.getElementById("bench-pills").innerHTML =
+          uniq.map((h) => "<span class=\"bench-pill\">★ " + h + "</span>").join("");
+
+        const top5 = follow.slice(0, 5);
+        const hidden = top5.filter((r) => !r.is_benchmark).length;
+        const unlockCopy = document.getElementById("hot-unlock-copy");
+        if (unlockCopy && top5.length) {
+          const n = hidden;
+          const noun = n === 1 ? "name is" : "names are";
+          unlockCopy.innerHTML =
+            "<span>" + n + " of the top " + top5.length + " " + noun + " hidden.</span> " +
+            "Unlock who is beating the Pelosi tracker — $12/mo.";
+        }
+      }
+
+      function renderPro(data) {
+        const rows = data.top15 || data.top10 || [];
+        document.getElementById("pro-body").innerHTML = rows.map((r) => {
+          const pnlCls = (r.pnl_on_10k || 0) >= 0 ? "pos" : "neg";
+          const spyCls = (r.vs_spy_on_10k || 0) >= 0 ? "pos" : "neg";
+          const disp = r.handle_display || r.handle_masked || r.free_display;
+          return (
+            "<tr class=\"" + (r.is_benchmark ? "benchmark" : "") + "\">" +
+              "<td class=\"rank\">" + r.rank + "</td>" +
+              "<td>" + handleHtml(disp, !!r.is_benchmark) + "</td>" +
+              "<td class=\"num " + pnlCls + "\">" + money(r.pnl_on_10k) + "</td>" +
+              "<td><span class=\"best\">" + (r.best_call_label || "—") + "</span></td>" +
+              "<td class=\"num " + spyCls + "\">" + money(r.vs_spy_on_10k) + "</td>" +
+              "<td class=\"num mono\">" + pctRate(r.hit_rate) + "</td>" +
+              "<td class=\"num mono\">" + (r.n_calls ?? "—") + "</td>" +
+              "<td><span class=\"streak " + streakClass(r.streak) + "\">" + (r.streak || "—") + "</span></td>" +
+            "</tr>"
+          );
+        }).join("");
+      }
+
+      function wireTabs() {
+        const tabs = document.querySelectorAll(".tab");
+        tabs.forEach((tab) => {
+          tab.addEventListener("click", () => {
+            const view = tab.getAttribute("data-view");
+            tabs.forEach((t) => {
+              const on = t === tab;
+              t.classList.toggle("active", on);
+              t.setAttribute("aria-selected", on ? "true" : "false");
+            });
+            document.querySelectorAll(".view").forEach((v) => {
+              v.classList.toggle("active", v.id === "view-" + view);
+            });
+            history.replaceState(null, "", view === "pro" ? "#pro" : "#board");
+          });
+        });
+        if (location.hash === "#pro") document.getElementById("tab-pro").click();
+      }
+
+      function readEmbeddedJson(id) {
+        const el = document.getElementById(id);
+        if (!el) return null;
+        try { return JSON.parse(el.textContent); } catch (_) { return null; }
+      }
+
+      async function fetchJson(path) {
+        try {
+          const res = await fetch(path, { cache: "no-store" });
+          if (res.ok) return await res.json();
+        } catch (_) {}
+        return null;
+      }
+
+      async function loadJson(path, embedId) {
+        const remote = await fetchJson(path);
+        if (remote) return { data: remote, source: "fetch" };
+        const embedded = readEmbeddedJson(embedId);
+        if (embedded) return { data: embedded, source: "embed" };
+        return { data: null, source: "none" };
+      }
+
+      async function load() {
+        const [hotRes, proRes] = await Promise.all([
+          loadJson("./data/hot_tips.json", "hot-tips-data"),
+          loadJson("./data/free_teaser.json", "pro-board-data"),
+        ]);
+        if (hotRes.data) renderHot(hotRes.data);
+        else document.getElementById("updated-label").textContent = "Hot Tips unavailable";
+        if (proRes.data) renderPro(proRes.data);
+        else document.getElementById("pro-body").innerHTML =
+          "<tr><td colspan=\"8\" style=\"color:var(--dim)\">Pro board data missing — run sync_data.py</td></tr>";
+      }
+
+      document.getElementById("year").textContent = new Date().getFullYear();
+      wireTabs();
+      load();
+    })();
+  </script>
+</body>
+</html>

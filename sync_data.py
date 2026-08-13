@@ -5,6 +5,8 @@
 2) Copy ../hot_tips.json      → site/data/hot_tips.json
 3) Copy ../free_teaser.json   → site/data/free_teaser.json  (Pro board)
 4) Rewrite embedded JSON blobs in site/index.html (file:// fallback)
+5) Rebuild paid unlock JSON (real handles + last-10 from calls.json) under
+   site/<paid_path>/ from stripe_config.json — never onto the free landing page
 
 Usage:
   python site/sync_data.py
@@ -87,6 +89,12 @@ def main() -> int:
         print(f"WARN: {index_html} missing — skipped embed rewrite", file=sys.stderr)
 
     print(f"Done ({copied} files). Hot Tips = default landing view; free_teaser = Pro board tab.")
+
+    # Paid path only: last-10 + real handles. Do not copy paid_board.json into site/data/.
+    sys.path.insert(0, str(root))
+    from paid_board_build import write_paid_site
+    write_paid_site(root)
+
     return 0
 
 

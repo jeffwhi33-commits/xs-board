@@ -1,10 +1,11 @@
 {
   "product_id": "prod_V3qWEpCV5T1h9z",
   "price_id": "price_1U3ipQA5KVS9YeBk4TzyiV6m",
-  "payment_link_id": "plink_1U3ipQA5KVS9YeBktrhS6nmE",
-  "payment_url": "https://buy.stripe.com/test_6oU4gy1wlcFy0aRbin7AI00",
-  "success_url": "https://jeffwhi33-commits.github.io/xs-board/x/1mpH-f3WR_Ml1gp6AD5cZgaerXiiqPAyXTj93_Bfnpk/",
-  "mode": "test",
+  "payment_link_id": "live",
+  "payment_url": "https://buy.stripe.com/aFa4gy5Tvdez5ej65V6Vq00",
+  "success_url": "https://xstips.com/x/1mpH-f3WR_Ml1gp6AD5cZgaerXiiqPAyXTj93_Bfnpk/",
+  "mode": "live",
   "unlock_token": "1mpH-f3WR_Ml1gp6AD5cZgaerXiiqPAyXTj93_Bfnpk",
-  "paid_path": "x/1mpH-f3WR_Ml1gp6AD5cZgaerXiiqPAyXTj93_Bfnpk/"
+  "paid_path": "x/1mpH-f3WR_Ml1gp6AD5cZgaerXiiqPAyXTj93_Bfnpk/",
+  "public_site": "https://xstips.com/"
 }

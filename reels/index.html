@@ -12,7 +12,10 @@
     main { max-width: 480px; margin: 0 auto; padding: 1.1rem 1rem 2.5rem; }
     .brand { color: var(--green); font-weight: 800; letter-spacing: .04em; font-size: .82rem; }
     h1 { font-size: 1.35rem; letter-spacing: -.03em; margin: .35rem 0 .9rem; line-height: 1.25; }
-    video { width: 100%; max-height: 70vh; border-radius: 16px; background: #000; display: block; }
+    .stage { position: relative; }
+    video { width: 100%; max-height: 70vh; border-radius: 16px; background: #000; display: block; object-fit: cover; }
+    .hint { position: absolute; left: 12px; bottom: 12px; font-size: .75rem; color: #fff;
+      background: rgba(0,0,0,.45); padding: .25rem .5rem; border-radius: 999px; }
     a.cta {
       display: block; margin: 1rem 0 .6rem; text-align: center; text-decoration: none;
       background: var(--green); color: #06140a; font-weight: 800; font-size: 1.05rem;
@@ -26,10 +29,25 @@
   <main>
     <div class="brand">X$ BOARD</div>
     <h1>Who is beating the Pelosi tracker?</h1>
-    <video controls playsinline webkit-playsinline muted src="c2b-hot-tips-v10.mp4"></video>
+    <div class="stage">
+      <video id="reel" autoplay muted loop playsinline webkit-playsinline src="c2b-hot-tips-v10.mp4"></video>
+      <div class="hint" id="hint">tap for sound</div>
+    </div>
     <a class="cta" href="https://xstips.com/">Open the free board</a>
     <p class="sub">Ranked by real buy-call results, not followers.<br>
     <a href="https://xstips.com/">xstips.com</a> · $12/mo to unlock names</p>
   </main>
+  <script>
+    const v = document.getElementById("reel");
+    const hint = document.getElementById("hint");
+    const kick = () => v.play().catch(() => {});
+    kick();
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) kick(); });
+    v.addEventListener("click", () => {
+      v.muted = !v.muted;
+      hint.textContent = v.muted ? "tap for sound" : "sound on";
+      kick();
+    });
+  </script>
 </body>
 </html>

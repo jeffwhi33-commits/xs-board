@@ -272,11 +272,33 @@
       outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px;
     }
     .alerts-card {
-      margin: 0 0 1.35rem;
+      margin: 1.5rem 0 0;
+      padding: 0;
+      border: 0;
+      background: none;
+    }
+    .alerts-teaser {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: none;
+      border: 0;
+      padding: 0;
+      color: var(--dim);
+      font: inherit;
+      font-size: 0.82rem;
+      line-height: 1.45;
+      cursor: pointer;
+    }
+    .alerts-teaser:hover { color: var(--muted); }
+    .alerts-teaser u { color: var(--accent); text-underline-offset: 2px; }
+    .alerts-card.is-open .alerts-teaser { margin-bottom: 0.75rem; }
+    .alerts-panel[hidden] { display: none !important; }
+    .alerts-panel {
       padding: 1rem 1.1rem 1.05rem;
       border-radius: 14px;
-      border: 1px solid rgba(52,211,153,0.28);
-      background: linear-gradient(180deg, rgba(52,211,153,0.08), rgba(255,255,255,0.02) 42%), var(--bg-card);
+      border: 1px solid var(--border);
+      background: var(--bg-card);
     }
     .alerts-card h2 {
       font-size: 1.05rem; letter-spacing: -0.03em; font-weight: 800;
@@ -448,32 +470,6 @@
         <div style="margin-top:1rem"><span class="updated" id="updated-label">Loading…</span></div>
       </section>
 
-      <section class="alerts-card" id="email-alerts" aria-labelledby="alerts-title">
-        <h2 id="alerts-title">Email alerts</h2>
-        <p class="alerts-lead">Pick who to watch and how often. We email new tracked calls (simulated, not advice).</p>
-        <form id="alert-prefs-form">
-          <label class="alerts-field">
-            <span>Email</span>
-            <input type="email" name="email" id="alert-email" required autocomplete="email" placeholder="you@email.com" />
-          </label>
-          <fieldset class="alerts-freq">
-            <legend>Frequency</legend>
-            <label><input type="radio" name="frequency" value="instant" /> Instant</label>
-            <label><input type="radio" name="frequency" value="daily" checked /> Daily</label>
-            <label><input type="radio" name="frequency" value="weekly" /> Weekly</label>
-          </fieldset>
-          <fieldset class="alerts-handles">
-            <legend>Handles</legend>
-            <div id="alert-handle-list" class="handle-grid"></div>
-          </fieldset>
-          <div class="alerts-actions">
-            <button type="submit" class="btn btn-primary btn-sm" id="alert-save">Save alerts</button>
-            <button type="button" class="btn btn-ghost btn-sm" id="alert-off">Off</button>
-          </div>
-          <p class="alerts-status" id="alert-status" role="status"></p>
-        </form>
-      </section>
-
       <section id="board">
         <div class="section-head">
           <div>
@@ -545,6 +541,37 @@
               </table>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section class="alerts-card" id="email-alerts">
+        <button type="button" class="alerts-teaser" id="alert-teaser">
+          For updates from specific handles — instant, daily, or weekly — <u>click here</u>.
+        </button>
+        <div class="alerts-panel" id="alert-panel" hidden>
+          <h2 id="alerts-title">Email alerts</h2>
+          <p class="alerts-lead">After you see who is printing, pick handles and how often. Simulated calls, not advice.</p>
+          <form id="alert-prefs-form">
+            <label class="alerts-field">
+              <span>Email</span>
+              <input type="email" name="email" id="alert-email" required autocomplete="email" placeholder="you@email.com" />
+            </label>
+            <fieldset class="alerts-freq">
+              <legend>Frequency</legend>
+              <label><input type="radio" name="frequency" value="instant" /> Instant</label>
+              <label><input type="radio" name="frequency" value="daily" checked /> Daily</label>
+              <label><input type="radio" name="frequency" value="weekly" /> Weekly</label>
+            </fieldset>
+            <fieldset class="alerts-handles">
+              <legend>Handles</legend>
+              <div id="alert-handle-list" class="handle-grid"></div>
+            </fieldset>
+            <div class="alerts-actions">
+              <button type="submit" class="btn btn-primary btn-sm" id="alert-save">Save alerts</button>
+              <button type="button" class="btn btn-ghost btn-sm" id="alert-off">Off</button>
+            </div>
+            <p class="alerts-status" id="alert-status" role="status"></p>
+          </form>
         </div>
       </section>
 
@@ -1038,6 +1065,21 @@
         document.documentElement.dataset.alertPrefsWired = "1";
         const form = document.getElementById("alert-prefs-form");
         const offBtn = document.getElementById("alert-off");
+        const teaser = document.getElementById("alert-teaser");
+        const panel = document.getElementById("alert-panel");
+        const card = document.getElementById("email-alerts");
+        function openAlertPrefs() {
+          if (panel) panel.hidden = false;
+          if (card) card.classList.add("is-open");
+        }
+        if (teaser && panel) {
+          teaser.addEventListener("click", function () {
+            const open = panel.hidden;
+            panel.hidden = !open;
+            if (card) card.classList.toggle("is-open", open);
+          });
+        }
+        if (loadSavedPrefs() && loadSavedPrefs().email) openAlertPrefs();
         if (!form) return;
         form.addEventListener("submit", async function (e) {
           e.preventDefault();

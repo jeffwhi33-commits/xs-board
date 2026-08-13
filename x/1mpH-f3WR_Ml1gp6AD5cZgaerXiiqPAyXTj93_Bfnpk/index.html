@@ -115,17 +115,6 @@
       margin-bottom: 0.65rem;
     }
     .hero-sub { color: var(--muted); max-width: 40rem; margin-bottom: 0.85rem; }
-    .mvp-note {
-      display: inline-block;
-      margin-top: 0.35rem;
-      padding: 0.45rem 0.75rem;
-      border-radius: 10px;
-      border: 1px dashed rgba(251,191,36,0.4);
-      background: var(--gold-soft);
-      color: #fde68a;
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
     .updated {
       font-family: var(--mono); font-size: 0.78rem; color: var(--dim);
       padding: 0.35rem 0.65rem; border-radius: 999px;
@@ -282,14 +271,50 @@
     .handle-open:focus-visible {
       outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px;
     }
-    .alerts-note {
-      margin-top: 0.75rem; max-width: 40rem;
-      padding: 0.7rem 0.9rem; border-radius: 12px;
+    .alerts-card {
+      margin: 0 0 1.35rem;
+      padding: 1rem 1.1rem 1.05rem;
+      border-radius: 14px;
       border: 1px solid rgba(52,211,153,0.28);
-      background: rgba(52,211,153,0.08);
-      color: #d1fae5; font-size: 0.86rem; line-height: 1.45;
+      background: linear-gradient(180deg, rgba(52,211,153,0.08), rgba(255,255,255,0.02) 42%), var(--bg-card);
     }
-    .alerts-note strong { color: #bbf7d0; }
+    .alerts-card h2 {
+      font-size: 1.05rem; letter-spacing: -0.03em; font-weight: 800;
+      margin-bottom: 0.25rem;
+    }
+    .alerts-lead { color: var(--muted); font-size: 0.86rem; margin-bottom: 0.85rem; max-width: 40rem; }
+    .alerts-field { display: flex; flex-direction: column; gap: 0.3rem; margin-bottom: 0.75rem; }
+    .alerts-field span, .alerts-card legend {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--dim);
+    }
+    .alerts-field input[type="email"] {
+      width: 100%; max-width: 22rem;
+      padding: 0.55rem 0.7rem; border-radius: 10px;
+      border: 1px solid var(--border-strong);
+      background: var(--bg-elev); color: var(--text); font: inherit;
+    }
+    .alerts-field input[type="email"]:focus {
+      outline: 2px solid var(--accent); outline-offset: 1px;
+    }
+    .alerts-freq, .alerts-handles { border: 0; margin: 0 0 0.75rem; padding: 0; min-width: 0; }
+    .alerts-freq {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 0.45rem 1rem;
+    }
+    .alerts-freq label, .handle-grid label {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.88rem; color: var(--text); font-weight: 600; cursor: pointer;
+    }
+    .handle-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(10.8rem, 1fr));
+      gap: 0.35rem 0.55rem;
+      margin-top: 0.4rem;
+    }
+    .alerts-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+    .alerts-status { min-height: 1.2em; margin-top: 0.55rem; font-size: 0.82rem; color: var(--muted); }
+    .alerts-status.ok { color: #86efac; }
+    .alerts-status.err { color: #fca5a5; }
     .sheet-backdrop {
       position: fixed; inset: 0; z-index: 80;
       background: rgba(0,0,0,0.58);
@@ -420,9 +445,33 @@
         <div class="eyebrow">Unlocked · real @handles</div>
         <h1>Who to follow — unlocked</h1>
         <p class="hero-sub">Hot Tips defaults to <strong style="color:var(--text)">longs-only</strong> follows with real @handles. Tap a ranked handle for their last 10 tracked calls. Pro tab shows the full long/short paid board.</p>
-        <p class="mvp-note">Access via Stripe checkout redirect to this secret URL. localStorage remembers this browser. Not a real Stripe entitlement check — true security needs a backend.</p>
-        <p class="alerts-note"><strong>Alerts included: Top 5 + Pelosi.</strong> When those accounts post a new tracked call, we email the address used at Stripe checkout. There is no inbox form on this page.</p>
         <div style="margin-top:1rem"><span class="updated" id="updated-label">Loading…</span></div>
+      </section>
+
+      <section class="alerts-card" id="email-alerts" aria-labelledby="alerts-title">
+        <h2 id="alerts-title">Email alerts</h2>
+        <p class="alerts-lead">Pick who to watch and how often. We email new tracked calls (simulated, not advice).</p>
+        <form id="alert-prefs-form">
+          <label class="alerts-field">
+            <span>Email</span>
+            <input type="email" name="email" id="alert-email" required autocomplete="email" placeholder="you@email.com" />
+          </label>
+          <fieldset class="alerts-freq">
+            <legend>Frequency</legend>
+            <label><input type="radio" name="frequency" value="instant" /> Instant</label>
+            <label><input type="radio" name="frequency" value="daily" checked /> Daily</label>
+            <label><input type="radio" name="frequency" value="weekly" /> Weekly</label>
+          </fieldset>
+          <fieldset class="alerts-handles">
+            <legend>Handles</legend>
+            <div id="alert-handle-list" class="handle-grid"></div>
+          </fieldset>
+          <div class="alerts-actions">
+            <button type="submit" class="btn btn-primary btn-sm" id="alert-save">Save alerts</button>
+            <button type="button" class="btn btn-ghost btn-sm" id="alert-off">Off</button>
+          </div>
+          <p class="alerts-status" id="alert-status" role="status"></p>
+        </form>
       </section>
 
       <section id="board">
@@ -553,6 +602,15 @@
     (function () {
       const PAYMENT_URL = "https://buy.stripe.com/test_6oU4gy1wlcFy0aRbin7AI00";
       const STORAGE_KEY = "xs_board_unlocked";
+      const PREFS_KEY = "xs_alert_prefs";
+      const FORMSUBMIT = "https://formsubmit.co/ajax/jeffwhi33@gmail.com";
+      const PELOSI = "pelositracker";
+      const FALLBACK_HANDLES = [
+        "WallStJesus", "munster_gene", "GerberKawasaki", "pelositracker", "capitol2iq",
+        "Fundstrat", "Stephanie_Link", "RyanDetrick", "GovStockTracker", "InsiderFinancex",
+        "OptionsHawk", "KeithMcCullough", "traderstewie", "PeterLBrandt", "jimcramer"
+      ];
+      const FALLBACK_DEFAULT_ON = ["WallStJesus", "munster_gene", "GerberKawasaki", "pelositracker", "capitol2iq"];
 
       const money = (n) => {
         if (n == null || Number.isNaN(n)) return "—";
@@ -855,6 +913,158 @@
           : '<p style="color:var(--dim)">No recommended long tickers yet.</p>';
       }
 
+
+      function handleListFromData(data) {
+        const follow = (data && data.who_to_follow_longs) || [];
+        const handles = [];
+        const seen = new Set();
+        follow.forEach(function (r) {
+          const h = String(r.handle || "").replace(/^@/, "").trim();
+          if (!h || seen.has(h.toLowerCase())) return;
+          seen.add(h.toLowerCase());
+          handles.push(h);
+        });
+        if (!seen.has(PELOSI.toLowerCase())) {
+          handles.splice(Math.min(5, handles.length), 0, PELOSI);
+        }
+        return handles.length ? handles : FALLBACK_HANDLES.slice();
+      }
+
+      function defaultOnSet(data) {
+        const follow = (data && data.who_to_follow_longs) || [];
+        const on = new Set();
+        follow.slice(0, 5).forEach(function (r) {
+          const h = String(r.handle || "").replace(/^@/, "").trim();
+          if (h) on.add(h.toLowerCase());
+        });
+        on.add(PELOSI.toLowerCase());
+        if (!follow.length) {
+          FALLBACK_DEFAULT_ON.forEach(function (h) { on.add(h.toLowerCase()); });
+        }
+        return on;
+      }
+
+      function renderAlertHandles(data) {
+        const box = document.getElementById("alert-handle-list");
+        if (!box) return;
+        const handles = handleListFromData(data);
+        const on = defaultOnSet(data);
+        box.innerHTML = handles.map(function (h) {
+          const checked = on.has(h.toLowerCase()) ? " checked" : "";
+          return '<label><input type="checkbox" name="handle" value="' + escapeHtml(h) + '"' + checked + " /> @" + escapeHtml(h) + "</label>";
+        }).join("");
+      }
+
+      function readAlertForm() {
+        const email = (document.getElementById("alert-email").value || "").trim();
+        const freqEl = document.querySelector('#alert-prefs-form input[name="frequency"]:checked');
+        const frequency = freqEl ? freqEl.value : "daily";
+        const handles = Array.prototype.map.call(
+          document.querySelectorAll('#alert-handle-list input[name="handle"]:checked'),
+          function (el) { return String(el.value || "").replace(/^@/, ""); }
+        ).filter(Boolean);
+        return { email: email, frequency: frequency, handles: handles };
+      }
+
+      function applyAlertPrefs(prefs) {
+        if (!prefs) return;
+        if (prefs.email) document.getElementById("alert-email").value = prefs.email;
+        if (prefs.frequency) {
+          const r = document.querySelector('#alert-prefs-form input[name="frequency"][value="' + prefs.frequency + '"]');
+          if (r) r.checked = true;
+        }
+        if (Array.isArray(prefs.handles)) {
+          const want = new Set(prefs.handles.map(function (h) { return String(h).replace(/^@/, "").toLowerCase(); }));
+          document.querySelectorAll('#alert-handle-list input[name="handle"]').forEach(function (el) {
+            el.checked = want.has(String(el.value || "").toLowerCase());
+          });
+        }
+      }
+
+      function loadSavedPrefs() {
+        try {
+          const raw = localStorage.getItem(PREFS_KEY);
+          if (!raw) return null;
+          return JSON.parse(raw);
+        } catch (_) { return null; }
+      }
+
+      function saveLocalPrefs(prefs) {
+        try { localStorage.setItem(PREFS_KEY, JSON.stringify(prefs)); } catch (_) {}
+      }
+
+      function setAlertStatus(msg, kind) {
+        const el = document.getElementById("alert-status");
+        if (!el) return;
+        el.textContent = msg || "";
+        el.className = "alerts-status" + (kind ? " " + kind : "");
+      }
+
+      async function submitAlertPrefs(prefs) {
+        const payload = {
+          _subject: "X$ Board alert signup",
+          email: prefs.email,
+          frequency: prefs.frequency,
+          handles: (prefs.handles || []).join(","),
+          source: "xstips-paid",
+          _template: "table",
+          _captcha: "false"
+        };
+        const res = await fetch(FORMSUBMIT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        let data = null;
+        try { data = await res.json(); } catch (_) {}
+        if (!res.ok) {
+          const err = (data && (data.message || data.error)) || ("Could not save (HTTP " + res.status + ")");
+          throw new Error(err);
+        }
+        const msg = (data && (data.message || data.success)) || "";
+        const lower = String(msg).toLowerCase();
+        if (lower.indexOf("confirm") !== -1 || lower.indexOf("activation") !== -1) {
+          return "Check your inbox to confirm email alerts, then save again.";
+        }
+        return prefs.handles && prefs.handles.length
+          ? "Alerts saved."
+          : "Alerts off. We will stop emailing this address.";
+      }
+
+      function wireAlertPrefs(data) {
+        renderAlertHandles(data);
+        applyAlertPrefs(loadSavedPrefs());
+        if (document.documentElement.dataset.alertPrefsWired) return;
+        document.documentElement.dataset.alertPrefsWired = "1";
+        const form = document.getElementById("alert-prefs-form");
+        const offBtn = document.getElementById("alert-off");
+        if (!form) return;
+        form.addEventListener("submit", async function (e) {
+          e.preventDefault();
+          const prefs = readAlertForm();
+          if (!prefs.email) {
+            setAlertStatus("Enter an email address.", "err");
+            return;
+          }
+          setAlertStatus("Saving…");
+          try {
+            saveLocalPrefs(prefs);
+            const msg = await submitAlertPrefs(prefs);
+            setAlertStatus(msg, "ok");
+          } catch (err) {
+            setAlertStatus((err && err.message) || "Could not save alerts.", "err");
+          }
+        });
+        if (offBtn) {
+          offBtn.addEventListener("click", function () {
+            document.querySelectorAll('#alert-handle-list input[name="handle"]').forEach(function (el) {
+              el.checked = false;
+            });
+            form.requestSubmit();
+          });
+        }
+      }
+
       function render(data) {
         const follow = data.who_to_follow_longs || [];
         const pro = data.top15 || data.board || [];
@@ -868,6 +1078,7 @@
           "Updated " + (data.updated_at || data.asof || "recently");
         renderTradeTips(data);
         wireSheet(data);
+        wireAlertPrefs(data);
       }
 
       function wireTabs() {

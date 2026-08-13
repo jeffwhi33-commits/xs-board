@@ -58,7 +58,9 @@ python site/sync_data.py
 python site/sync_data.py --no-regen   # copy + embed only
 ```
 
-After regenerating retail / hot tips boards, rebuild and copy paid JSON into `x/<token>/paid_board.json` (and re-embed in the secret HTML if you rely on the inline blob).
+`sync_data.py` also rebuilds `x/<token>/paid_board.json` (real handles + last 10 calls from `calls.json`) and re-embeds it in the secret HTML. Last-10 never goes on the free landing page or `site/data/`.
+
+Paid handle clicks open an in-page last-10 sheet (not x.com). Alerts payload: `python ../build_paid_alerts.py` (Top 5 + Pelosi).
 
 ## Information architecture
 
